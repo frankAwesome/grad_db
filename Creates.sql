@@ -132,17 +132,23 @@ CREATE TABLE ProductTax
 );
 
 
-CREATE TABLE Category
+CREATE TABLE MainCategory
 (
 	CategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	CategoryName VARCHAR(50) NOT NULL,
-	CategoryDescription VARCHAR(100) NOT NULL,
+);
+
+CREATE TABLE SubCategory
+(
+	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
+	SubCategoryName VARCHAR(50) NOT NULL,
+	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID) NOT NULL
 );
 
 CREATE TABLE BaseProduct
 (
 	BaseProductID INT IDENTITY(1,1) PRIMARY KEY,
-	CategoryID INT FOREIGN KEY REFERENCES Category(CategoryID),
+	SubCategoryID INT FOREIGN KEY REFERENCES SubCategory(SubCategoryID),
 	BaseProductName VARCHAR(50) NOT NULL,
 	BaseProductDescription VARCHAR(100) NOT NULL,
 	BaseProductPicture VARCHAR(50) NOT NULL,
@@ -182,27 +188,27 @@ CREATE TABLE SaleProduct
 	REFERENCES BaseProduct(BaseProductID)
 );
 
-CREATE TABLE BillingType
-(
-	BillingTypeID INT IDENTITY(1,1) PRIMARY KEY,
-	BillingTypeName VARCHAR(50) NOT NULL,
-	BillingTypeDescription VARCHAR(100) NOT NULL,
-);
+-- CREATE TABLE BillingType
+-- (
+-- 	BillingTypeID INT IDENTITY(1,1) PRIMARY KEY,
+-- 	BillingTypeName VARCHAR(50) NOT NULL,
+-- 	BillingTypeDescription VARCHAR(100) NOT NULL,
+-- );
 
-CREATE TABLE ProductInstance
-(
-	ProductInstanceID INT IDENTITY(1,1) PRIMARY KEY,
-	BaseProductID INT FOREIGN KEY REFERENCES BaseProduct(BaseProductID),
-	BillingTypeID INT FOREIGN KEY REFERENCES BillingType(BillingTypeID),
-	ProductIntancePrice DECIMAL(10,2) NOT NULL,
-);
+-- CREATE TABLE ProductInstance
+-- (
+-- 	ProductInstanceID INT IDENTITY(1,1) PRIMARY KEY,
+-- 	BaseProductID INT FOREIGN KEY REFERENCES BaseProduct(BaseProductID),
+-- 	BillingTypeID INT FOREIGN KEY REFERENCES BillingType(BillingTypeID),
+-- 	ProductIntancePrice DECIMAL(10,2) NOT NULL,
+-- );
 
-CREATE TABLE ProductQuantity
-(
-	ProductQuantityID INT IDENTITY(1,1) PRIMARY KEY,
-	ProductInstanceID INT FOREIGN KEY REFERENCES ProductInstance(ProductInstanceID),
-	ProductQuantityQty INT,
-);
+-- CREATE TABLE ProductQuantity
+-- (
+-- 	ProductQuantityID INT IDENTITY(1,1) PRIMARY KEY,
+-- 	ProductInstanceID INT FOREIGN KEY REFERENCES ProductInstance(ProductInstanceID),
+-- 	ProductQuantityQty INT,
+-- );
 
 CREATE TABLE ProductAttribute
 (
@@ -214,10 +220,12 @@ CREATE TABLE ProductAttribute
 
 CREATE TABLE ProductValue
 (
-	ProductValueID INT IDENTITY(1,1) PRIMARY KEY,
-	ProductInstanceID INT FOREIGN KEY REFERENCES ProductInstance(ProductInstanceID),
-	ProductAttributeID INT FOREIGN KEY REFERENCES ProductAttribute(ProductAttributeID),
-	ProductValueVal VARCHAR(50) NOT NULL,
+	BaseProductID INT NOT NULL,
+	ProductAttributeID INT NOT NULL,
+	Value VARCHAR(50) NOT NULL,
+	CONSTRAINT pk_producttoattribute PRIMARY KEY (BaseProductID,ProductAttributeID),
+	CONSTRAINT fk_producttoattribute FOREIGN KEY(BaseProductID) REFERENCES BaseProduct(BaseProductID),
+	CONSTRAINT fk_attributetoproduct FOREIGN KEY (ProductAttributeID) REFERENCES ProductAttribute(ProductAttributeID)
 );
 
 CREATE TABLE ReturnReason
