@@ -73,6 +73,7 @@ CREATE TABLE Store
 	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
 );
 
+
 CREATE TABLE Role
 (
 	RoleID INT IDENTITY(1,1) PRIMARY KEY,
@@ -149,6 +150,16 @@ CREATE TABLE BaseProduct
 	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID) NOT NULL
 );
 
+CREATE TABLE StoreBaseProduct
+(
+	StoreID INT NOT NULL,
+	BaseProductID INT NOT NULL,
+	Quantity INT NOT NULL,
+	CONSTRAINT pk_storetoproduct PRIMARY KEY (StoreID,BaseProductID),
+	CONSTRAINT fk_storetoproduct FOREIGN KEY(StoreID) REFERENCES Store(StoreID),
+	CONSTRAINT fk_producttostore FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID)
+);
+
 CREATE TABLE Sale
 (
 	SaleID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -207,6 +218,72 @@ CREATE TABLE ProductValue
 	ProductInstanceID INT FOREIGN KEY REFERENCES ProductInstance(ProductInstanceID),
 	ProductAttributeID INT FOREIGN KEY REFERENCES ProductAttribute(ProductAttributeID),
 	ProductValueVal VARCHAR(50) NOT NULL,
+);
+
+CREATE TABLE ReturnReason
+(
+	ReturnReasonID INT IDENTITY(1,1) PRIMARY KEY,
+	ReasonDescription VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE SReturn /*** Return is a sql key word */
+(
+	ReturnID INT IDENTITY(1,1) PRIMARY KEY,
+	ReturnDate DATE NOT NULL,
+	ReturnReasonID INT FOREIGN KEY REFERENCES ReturnReason(ReturnReasonID)
+);
+
+CREATE TABLE SaleReturn
+(
+	ReturnID INT NOT NULL,
+	SaleID INT NOT NULL,
+	BaseProductID INT NOT NULL,
+	Quantity INT NOT NULL
+	CONSTRAINT pk_returntosale PRIMARY KEY (ReturnID, SaleID, BaseProductID),
+	CONSTRAINT fk_returntosale FOREIGN KEY (ReturnID) REFERENCES SReturn(ReturnID),
+	CONSTRAINT fk_saletoreturn FOREIGN KEY (SaleID,BaseProductID) REFERENCES SaleProduct(SaleID,BaseProductID)
+);
+
+CREATE TABLE WriteoffReason
+(
+	WriteoffReasonID INT IDENTITY(1,1) PRIMARY KEY,
+	ReasonDescription VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE Writeoff
+(
+	WriteoffID INT IDENTITY(1,1) PRIMARY KEY,
+	WriteoffDate DATE NOT NULL
+);
+
+CREATE TABLE ProductWriteoff
+(
+	WriteoffID INT NOT NULL,
+	BaseProductID INT NOT NULL,
+	StoreID INT NOT NULL,
+	WriteoffReasonID INT FOREIGN KEY REFERENCES WriteoffReason(WriteoffReasonID),
+	Quantity INT NOT NULL,
+	CONSTRAINT pk_writeofftoproduct PRIMARY KEY (WriteoffID, BaseProductID, StoreID),
+	CONSTRAINT fk_writeofftoproduct FOREIGN KEY (WriteoffID) REFERENCES Writeoff(WriteoffID),
+	CONSTRAINT fk_producttowriteoff FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+);
+
+CREATE TABLE StockTake
+(
+	StocktakeID INT IDENTITY(1,1) PRIMARY KEY,
+	StocktakeDate DATE NOT NULL,
+	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID)
+);
+
+CREATE TABLE StockTakeProduct
+(
+	StocktakeID INT NOT NULL,
+	BaseProductID INT NOT NULL,
+	StoreID INT NOT NULL,
+	NumberCounted INT NOT NULL,
+	CONSTRAINT pk_stocktaketoproduct PRIMARY KEY (StocktakeID,BaseProductID,StoreID),
+	CONSTRAINT fk_stocktaketoproduct FOREIGN KEY (StocktakeID) REFERENCES StockTake(StocktakeID),
+	CONSTRAINT fk_producttostocktake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
 );
 
 /****** CREATE TABLES END  ******/
