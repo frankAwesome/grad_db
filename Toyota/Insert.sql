@@ -489,6 +489,19 @@ EXEC uspInsertStore 'Protea Toyota', 1, 1, 48
 EXEC uspInsertStore 'Bidvest McCarthy Toyota N1 City', 1, 1, 49
 EXEC uspInsertStore 'Barloworld Toyota - Kuilsrivier', 1, 1, 50
 
+EXEC uspInsertOperationalCostType 'Water', 'Water for the store.'
+EXEC uspInsertOperationalCostType 'Electricity', 'Electricity for the store'
+EXEC uspInsertOperationalCostType 'Butcher clothing', 'Cloves, coats, and other items for butchers'
+EXEC uspInsertOperationalCostType 'Fuel', 'Fuel for company cars'
+
+EXEC uspInsertOperationalCost 1, 10000.00
+EXEC uspInsertOperationalCost 2, 40000.00
+
+EXEC uspInsertStoreOperationalCost 1, 1;
+EXEC uspInsertStoreOperationalCost 1, 2;
+EXEC uspInsertStoreOperationalCost 20, 2;
+EXEC uspInsertStoreOperationalCost 20, 1;
+
 EXEC uspInsertEmployee 1804522625730,'Lewis','Rocha',186,'lewisRocha@gmail.com','0532680587',1,8
 EXEC uspInsertEmployee 925367849832,'Shana','Santana',75,'shana@hotmail.org','0774846141',1,34
 EXEC uspInsertEmployee 1206030267477,'Denise','Herrera',123,'dHerrera@gmail.com','0611418307',5,24
@@ -590,11 +603,13 @@ EXEC uspInsertEmployee 1276516985614,'Galena','Rosario',193,'gelenaR@mail.com','
 EXEC uspInsertEmployee 1280237966869,'Rose','Benjamin',113,'roseBen@gmail.com','0625716859',6,48
 EXEC uspInsertEmployee 1050742227491,'Teegan','Mcfarland',11,'teeganmcF@mail.co.za','0704494096',5,41
 
+EXEC uspInsertMarkup 0.0
 EXEC uspInsertMarkup 10.0
 EXEC uspInsertMarkup 20.0
 EXEC uspInsertMarkup 25.0
 EXEC uspInsertMarkup 50.0
 EXEC uspInsertMarkup 75.0
 
-EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 4
-EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 2
+EXEC uspInsertDeal 'Standard', NULL, NULL, 'Standard no deal', 1
+EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 5
+EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 3
