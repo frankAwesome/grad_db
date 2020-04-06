@@ -44,7 +44,7 @@ CREATE TABLE Province
 CREATE TABLE City
 (
 	CityID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	CityName VARCHAR(50) UNIQUE NOT NULL,
+	CityName VARCHAR(50) NOT NULL,
 	ProvinceID INT FOREIGN KEY REFERENCES Province(ProvinceID)
 );
 
@@ -128,7 +128,7 @@ CREATE TABLE Employee
 	LastName VARCHAR(50),
 	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) NOT NULL,
 	Email VARCHAR(20) UNIQUE,
-	Phone VARCHAR(10) UNIQUE NOT NULL,
+	Phone CHAR(10) UNIQUE NOT NULL,
 	RolePermissionID INT FOREIGN KEY REFERENCES RolePermission(RolePermissionID) NOT NULL,
 	StoreID INT FOREIGN KEY REFERENCES Store(StoreID)
 );
@@ -314,7 +314,7 @@ CREATE TABLE Supplier
 	SupplierID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	Name VARCHAR(60) NOT NULL,
 	Email VARCHAR(20) NOT NULL,
-	Phone VARCHAR(10) NOT NULL,
+	Phone CHAR(10) NOT NULL,
 	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
 );
 
@@ -704,7 +704,7 @@ EXEC('CREATE PROCEDURE uspInsertEmployee
 		@LastName VARCHAR(50),
 		@AddressID INT,
 		@Email VARCHAR(20),
-		@Phone VARCHAR(10),
+		@Phone CHAR(10),
 		@RolePermissionID INT,
 		@StoreID INT
 	AS
@@ -768,6 +768,85 @@ EXEC('CREATE PROCEDURE uspInsertProductTax
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO ProductTax VALUES(@TaxDescription, @TaxValue);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSupplier' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertSupplier
+		@Name VARCHAR(60),
+		@Email VARCHAR(20),
+		@Phone CHAR(10),
+		@AddressID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO Supplier VALUES(@Name, @Email, @Phone, @AddressID);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertOrder
+		@SupplierID INT,
+		@StoreID INT,
+		@OrderDate DATE,
+		@EmployeeID INT,
+		@OrderStatus VARCHAR(20),
+		@DateReceived DATE
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO Order VALUES(@SupplierID, @StoreID, @OrderDate, @EmployeeID, @OrderStatus, @DateReceived);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSupplierOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertSupplierOrder
+		@SupplierID INT,
+		@OrderID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO SupplierOrder VALUES(@SupplierID, @OrderID);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOrderProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertOrderProduct
+		@SubCategoryID INT,
+		@OrderID INT,
+		@Quantity DECIMAL(10,2)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO OrderProduct VALUES(@SubCategoryID, @OrderID, @Quantity);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -889,8 +968,8 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateEmployeePhone' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateEmployeePhone
-		@OldPhone VARCHAR(20),
-		@NewPhone VARCHAR(20)
+		@OldPhone CHAR(10),
+		@NewPhone CHAR(10)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -1042,6 +1121,86 @@ EXEC('CREATE PROCEDURE uspUpdateProductTaxDescription
 	END CATCH')
 GO 
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSupplierEmail' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateSupplierEmail
+		@SupplierName VARCHAR(60),
+		@Email VARCHAR(20)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Supplier
+			SET Email = @Email
+			WHERE Name = @SupplierName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSupplierPhone' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateSupplierPhone
+		@SupplierName VARCHAR(60),
+		@Phone VARCHAR(10)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Supplier
+			SET Email = @Email
+			WHERE Phone = @Phone
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateOrderStatus' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateOrderStatus
+		@OrderID INT,
+		@OrderStatus VARCHAR(20)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Order
+			SET OrderStatus = @OrderStatus
+			WHERE OrderID = @OrderID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateOrderDateReceived' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateOrderDateReceived
+		@OrderID INT,
+		@DateReceived DATE
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Order
+			SET DateReceived = @DateReceived
+			WHERE OrderID = @OrderID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
 
 
 
@@ -1187,6 +1346,80 @@ EXEC('CREATE PROCEDURE uspDeleteProductTax
 		BEGIN TRANSACTION
 			DELETE FROM ProductTax
 			WHERE ProductTaxDescription = @TaxDescription
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSupplier' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteSupplier
+		@SupplierName VARCHAR(60)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Supplier
+			WHERE Name = @SupplierName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteOrder
+		@OrderID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Order
+			WHERE OrderID = @OrderID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteOrderProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteOrderProduct
+		@OrderID INT,
+		@SubCategoryID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM OrderProduct
+			WHERE OrderID = @OrderID AND SubCategoryID = @SubCategoryID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSupplierOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteSupplierOrder
+		@OrderID INT,
+		@SupplierID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM SupplierOrder
+			WHERE OrderID = @OrderID AND SupplierID = @SupplierID
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
