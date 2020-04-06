@@ -335,7 +335,7 @@ CREATE TABLE SupplierOrder
 	OrderID INT NOT NULL,
 	CONSTRAINT PK_SupplierToOrder PRIMARY KEY (SupplierID, OrderID),
 	CONSTRAINT FK_SupplierToOrder FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
-	CONSTRAINT FK_OrderToSupplier FOREIGN KEY (OrderID) REFERENCES Order(OrderID)
+	CONSTRAINT FK_OrderToSupplier FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
 );
 
 CREATE TABLE OrderProduct
@@ -345,7 +345,7 @@ CREATE TABLE OrderProduct
 	Quantity DECIMAL(10,2),
 	CONSTRAINT PK_OrderToProduct PRIMARY KEY (SubCategoryID, OrderID),
 	CONSTRAINT FK_OrderToProduct FOREIGN KEY (SubCategoryID) REFERENCES SubCategory(SubCategoryID),
-	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES Order(OrderID)
+	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
 );
 
 
