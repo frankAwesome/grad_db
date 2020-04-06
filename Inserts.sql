@@ -51,25 +51,13 @@ EXEC uspInsertEmployee 9803180097083, 'Evert', 'Genis', 4, 'evert@bbd.co.za', '0
 EXEC uspInsertEmployee 9803180097084, 'Francois', 'de Klerk', 5, 'francoisdk@bbd.co.za', '0725138324', 4, 2;
 EXEC uspInsertEmployee 9803180097085, 'Vineet', 'Naran', 5, 'vineet@bbd.co.za', '0796973833', 4, 2;
 
-INSERT INTO Category(CategoryName,CategoryDescription)
+INSERT INTO MainCategory(CategoryName)
 VALUES 	('Cans','This is a coke can'),
 		('Mustang','This is a Mustang');
 
 INSERT INTO BaseProduct(CategoryID,BaseProductName,BaseProductDescription,BaseProductPicture)
 VALUES 	(1,'Coke','This might be a coke can','C://user/picture/cokeCan.png'),
 		(2,'Ford','This might be a Ford car', 'C://user/picture/fordCar.png');
-
-INSERT INTO BillingType(BillingTypeName,BillingTypeDescription)
-VALUES 	('Credit Card', 'This billing is done with Credit Card'),
-		('Cash', 'This billing is done with Cash');
-
-INSERT INTO ProductIntance(BaseProductID,BillingTypeID,ProductIntancePrice)
-VALUES 	(1,2,12),
-		(2,1,50000);
-
-INSERT INTO ProductQuantity(ProductInstanceID,ProductQuantityQty)
-VALUES 	(1,10),
-		(2,1);
 
 INSERT INTO ProductValue(ProductInstanceID,ProductValueVal)
 VALUES 	(1,'Red'),
