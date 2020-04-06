@@ -63,6 +63,19 @@ CREATE TABLE Address
 	SuburbID INT FOREIGN KEY REFERENCES Suburb(SuburbID)
 );
 
+CREATE TABLE OperationalCostType
+(
+	OperationalCostTypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Description VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE OperationalCost
+(
+	OperationalCostID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	OperationalCostTypeID INT FOREIGN KEY REFERENCES OperationalCostType(OperationalCostTypeID),
+	Amount DECIMAL(20,2) NOT NULL
+);
+
 CREATE TABLE StoreType
 (
 	TypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -75,7 +88,8 @@ CREATE TABLE Store
 	StoreName VARCHAR(50) UNIQUE NOT NULL,
 	TypeID INT FOREIGN KEY REFERENCES StoreType(TypeID),
 	CompanyID INT FOREIGN KEY REFERENCES Company(CompanyID),
-	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID),
+	OperationalCostID INT FOREIGN KEY REFERENCES OperationalCost(OperationalCostID),
 );
 
 
