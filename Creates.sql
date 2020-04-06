@@ -156,7 +156,6 @@ CREATE TABLE ProductTax
 	ProductTaxValue DECIMAL(10,2) NOT NULL,
 );
 
-
 CREATE TABLE MainCategory
 (
 	CategoryID INT IDENTITY(1,1) PRIMARY KEY,
