@@ -155,9 +155,9 @@ CREATE TABLE StoreBaseProduct
 	StoreID INT NOT NULL,
 	BaseProductID INT NOT NULL,
 	Quantity INT NOT NULL,
-	CONSTRAINT pk_storetoproduct PRIMARY KEY (StoreID,BaseProductID),
-	CONSTRAINT fk_storetoproduct FOREIGN KEY(StoreID) REFERENCES Store(StoreID),
-	CONSTRAINT fk_producttostore FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID)
+	CONSTRAINT PK_StoreToProduct PRIMARY KEY (StoreID,BaseProductID),
+	CONSTRAINT FK_StoreToProduct FOREIGN KEY(StoreID) REFERENCES Store(StoreID),
+	CONSTRAINT FK_ProductToStore FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID)
 );
 
 CREATE TABLE Sale
@@ -175,11 +175,9 @@ CREATE TABLE SaleProduct
 	BaseProductID INT NOT NULL,
 	SellingPrice DECIMAL(10,2) NOT NULL,
 	Quantity INT NOT NULL,
-	CONSTRAINT PK_Sale_Product PRIMARY KEY (SaleID,BaseProductID),
-	CONSTRAINT FK_Sale FOREIGN KEY (SaleID)
-	REFERENCES Sale(SaleID),
-	CONSTRAINT FK_Product FOREIGN KEY (BaseProductID)
-	REFERENCES BaseProduct(BaseProductID)
+	CONSTRAINT PK_SaleProduct PRIMARY KEY (SaleID,BaseProductID),
+	CONSTRAINT FK_Sale FOREIGN KEY (SaleID) REFERENCES Sale(SaleID),
+	CONSTRAINT FK_Product FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID)
 );
 
 CREATE TABLE BillingType
