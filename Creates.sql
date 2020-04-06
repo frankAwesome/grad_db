@@ -129,7 +129,7 @@ CREATE TABLE Employee
 	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) NOT NULL,
 	Email VARCHAR(20) UNIQUE,
 	Phone CHAR(10) UNIQUE NOT NULL,
-	RolePermissionID INT FOREIGN KEY REFERENCES RolePermission(RolePermissionID) NOT NULL,
+	RoleID INT FOREIGN KEY REFERENCES Role(RoleID) NOT NULL,
 	StoreID INT FOREIGN KEY REFERENCES Store(StoreID)
 );
 
@@ -402,8 +402,7 @@ EXEC('CREATE PROCEDURE uspSelectEmployee
 			store.StoreName AS Store
 		FROM Employee AS employee
 		JOIN Store AS store ON employee.StoreID = store.StoreID
-		JOIN RolePermission AS rolePermission ON employee.RolePermissionID = rolePermission.RolePermissionID
-		JOIN Role AS role ON rolePermission.RoleID = role.RoleID
+		JOIN Role AS role ON employee.RoleID = role.RoleID
 		WHERE 
 			(@IDNumber IS NULL OR (employee.IDNumber = @IDNumber)) AND
 			(@Email IS NULL OR (employee.Email = @Email));
@@ -426,8 +425,7 @@ EXEC('CREATE PROCEDURE uspSelectEmployees
 			store.StoreName AS Store
 		FROM Employee AS employee
 		JOIN Store AS store ON employee.StoreID = store.StoreID
-		JOIN RolePermission AS rolePermission ON employee.RolePermissionID = rolePermission.RolePermissionID
-		JOIN Role AS role ON rolePermission.RoleID = role.RoleID
+		JOIN Role AS role ON employee.RoleID = role.RoleID
 	END')
 GO
 
@@ -696,13 +694,13 @@ EXEC('CREATE PROCEDURE uspInsertEmployee
 		@AddressID INT,
 		@Email VARCHAR(20),
 		@Phone CHAR(10),
-		@RolePermissionID INT,
+		@RoleID INT,
 		@StoreID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO Employee VALUES(@IDNumber, @FirstName, @LastName, @AddressID, @Email, @Phone, @RolePermissionID, @StoreID);
+			INSERT INTO Employee VALUES(@IDNumber, @FirstName, @LastName, @AddressID, @Email, @Phone, @RoleID, @StoreID);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -967,14 +965,11 @@ EXEC('CREATE PROCEDURE uspUpdateEmployeeRole
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			DECLARE @RolePermissionID INT;
-			SELECT @RolePermissionID = rolePermission.RolePermissionID
-			FROM RolePermission as rolePermission
-			LEFT JOIN Role AS role ON rolePermission.roleID = role.roleID
-			WHERE role.roleName = @RoleName;
+			DECLARE @RoleID INT;
+			SELECT @RoleID = RoleID FROM Role WHERE RoleName = @RoleName;
 
 			UPDATE Employee
-			SET RolePermissionID = @RolePermissionID
+			SET RoleID = @RoleID
 			WHERE IDNumber = @IDNumber
 		COMMIT TRANSACTION;
 	END TRY
