@@ -1,14 +1,19 @@
-/****** CREATE DATABASE  ******/
+/*******************************************************************************************************************************************
+*															CREATE DATABASE																   *
+********************************************************************************************************************************************/
+
 CREATE DATABASE GenericCompanyDB;
 GO
 
 USE GenericCompanyDB;
 GO
 
-/****** CREATE DATABASE END  ******/
 
 
-/****** CREATE TABLES  ******/
+
+/*******************************************************************************************************************************************
+*															CREATE TABLES	 															   *
+********************************************************************************************************************************************/
 
 CREATE TABLE Errors(
     ErrorID INT IDENTITY(1, 1) PRIMARY KEY NOT NULL,
@@ -284,11 +289,12 @@ CREATE TABLE StockTakeProduct
 	CONSTRAINT FK_ProductToStockTake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
 );
 
-/****** CREATE TABLES END  ******/
 
 
 
-/****** CREATE TABLES CONSTRAINTS  ******/
+/*******************************************************************************************************************************************
+*													 CREATE TABLES CONSTRAINTS	 														   *
+********************************************************************************************************************************************/
 
 ALTER TABLE Employee
 ADD CONSTRAINT CHK_Valid_Email
@@ -298,10 +304,12 @@ ALTER TABLE Employee
 ADD CONSTRAINT CHK_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
-/****** CREATE TABLES CONSTRAINTS END  ******/
 
 
-/****** CREATE SELECT STORED PROCEDURES  ******/
+
+/*******************************************************************************************************************************************
+*													 CREATE SELECT STORED PROCEDURES 				 								       *
+********************************************************************************************************************************************/
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspSelectCompany' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspSelectCompany
@@ -381,10 +389,11 @@ EXEC('CREATE PROCEDURE uspSelectSaleProduct
 GO
 
 
-/****** CREATE SELECT STORED PROCEDURES END  ******/
 
 
-/****** CREATE INSERT STORED PROCEDURES  ******/
+/*******************************************************************************************************************************************
+*														CREATE INSERT STORED PROCEDURES	 												   *
+********************************************************************************************************************************************/
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertCompany' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertCompany
@@ -648,10 +657,12 @@ EXEC('CREATE PROCEDURE uspInsertProductTax
 	END CATCH')
 GO
 
-/****** CREATE INSERT STORED PROCEDURES END  ******/
 
 
-/****** CREATE UPDATE STORED PROCEDURES  ******/
+
+/*******************************************************************************************************************************************
+*														CREATE UPDATE STORED PROCEDURES	 												   *
+********************************************************************************************************************************************/
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateCompanyDescription' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateCompanyDescription
@@ -912,10 +923,11 @@ EXEC('CREATE PROCEDURE uspUpdateProductTaxDescription
 GO 
 
 
-/****** CREATE UPDATE STORED PROCEDURES END  ******/
 
 
-/****** CREATE DELETE STORED PROCEDURES  ******/
+/*******************************************************************************************************************************************
+*														CREATE DELETE STORED PROCEDURES	 												   *
+********************************************************************************************************************************************/
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteCity' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspDeleteCity
@@ -1064,10 +1076,12 @@ EXEC('CREATE PROCEDURE uspDeleteProductTax
 	END CATCH')
 GO
 
-/****** CREATE DELETE STORED PROCEDURES END  ******/
 
 
-/****** CREATE USER DEFINED FUNCTIONS  ******/
+
+/*******************************************************************************************************************************************
+*														CREATE USER DEFINED FUNCTIONS	 												   *
+********************************************************************************************************************************************/
 
 CREATE FUNCTION udfGetFirstDayOfYear ()
 RETURNS DATE
@@ -1161,5 +1175,3 @@ BEGIN
 	RETURN (SELECT ProvinceID FROM Province WHERE ProvinceName = @ProvinceName);
 END
 GO
-
-/****** CREATE USER DEFINED FUNCTIONS END  ******/
