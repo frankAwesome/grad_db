@@ -346,19 +346,19 @@ CREATE TABLE OrderProduct
 ********************************************************************************************************************************************/
 
 ALTER TABLE Employee
-ADD CONSTRAINT CHK_Valid_Email
+ADD CONSTRAINT CHK_Employee_Valid_Email
 CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
 
 ALTER TABLE Employee
-ADD CONSTRAINT CHK_Valid_Phone
+ADD CONSTRAINT CHK_Employee_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
 ALTER TABLE Supplier
-ADD CONSTRAINT CHK_Valid_Email
+ADD CONSTRAINT CHK_Supplier_Valid_Email
 CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
 
 ALTER TABLE Supplier
-ADD CONSTRAINT CHK_Valid_Phone
+ADD CONSTRAINT CHK_Supplier_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
 
@@ -1123,8 +1123,8 @@ EXEC('CREATE PROCEDURE uspUpdateSupplierPhone
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			UPDATE Supplier
-			SET Email = @Email
-			WHERE Phone = @Phone
+			SET Phone = @Phone
+			WHERE Name = @SupplierName
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1366,14 +1366,14 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteOrderProduct' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspDeleteOrderProduct
-		@OrderID INT,
-		@SubCategoryID INT
+		@BaseProductID INT,
+		@OrderID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			DELETE FROM OrderProduct
-			WHERE OrderID = @OrderID AND SubCategoryID = @SubCategoryID
+			WHERE OrderID = @OrderID AND BaseProductID = @BaseProductID
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1486,17 +1486,19 @@ GO
 CREATE FUNCTION udfGetOrdersForStore(@StoreName VARCHAR(100))
 RETURNS TABLE
 AS
-	RETURN (SELECT orders.OrderID 
+	RETURN (SELECT orders.OrderID AS OrderID, supplier.Name AS Supplier, store.StoreName AS Store, orders.OrderDate AS OrderDate, orders.EmployeeID AS EmployeeID, orders.OrderStatus AS OrderStatus, orders.DateReceived AS DateReceived
 			FROM StoreOrder AS orders
 			JOIN Store AS store ON store.StoreID = orders.StoreID
+			JOIN Supplier AS supplier ON orders.SupplierID = supplier.SupplierID
 			WHERE store.StoreName = @StoreName);
 GO
 
 CREATE FUNCTION udfGetOrdersForSupplier(@SupplierName VARCHAR(60))
 RETURNS TABLE
 AS
-	RETURN (SELECT * 
+	RETURN (SELECT orders.OrderID AS OrderID, store.StoreName AS Store, orders.OrderDate AS OrderDate, orders.EmployeeID AS EmployeeID, orders.OrderStatus AS OrderStatus, orders.DateReceived AS DateReceived
 			FROM StoreOrder AS orders
+			JOIN Store AS store ON store.StoreID = orders.StoreID
 			JOIN Supplier as supplier ON orders.SupplierID = supplier.SupplierID
 			WHERE supplier.Name = @SupplierName);
 GO
