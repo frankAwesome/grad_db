@@ -414,10 +414,6 @@ EXEC('CREATE PROCEDURE uspInsertProvince
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			DECLARE @CityId INT
-			INSERT INTO City VALUES(@CityName,@ProvinceID);
-			SET @CityID = (SELECT SCOPE_IDENTITY())
-			RETURN @CityID
 			INSERT INTO Province VALUES(@ProvinceName);
 		COMMIT TRANSACTION;
 	END TRY
@@ -618,15 +614,15 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertDeal' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertDeal
 		@DealName VARCHAR(60),
-		@StartDate DATE,
-		@EndDate DATE,
+		@StartDate DATE = NULL,
+		@EndDate DATE = NULL,
 		@Description VARCHAR(100),
 		@MarkupID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO Deal VALUES(@DealName, @StartDate, @EndDate, @Description, @MarkupID);
+			INSERT INTO Deal VALUES(@DealName, ISNULL(@StartDate, dbo.udfGetFirstDayOfYear()), ISNULL(@EndDate, dbo.udfGetLastDayOfYear()), @Description, @MarkupID);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -883,11 +879,10 @@ EXEC('CREATE PROCEDURE upsUpdateProductTaxValue
 		@TaxValue DECIMAL(10,2)
 	AS
 	BEGIN TRY
-		SET NOCOUNT ON:
+		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			UPDATE ProductTax
-			SET
-				ProductTaxValue = @TaxValue
+			SET ProductTaxValue = @TaxValue
 			WHERE ProductTaxDescription = @TaxDescription
 		COMMIT TRANSACTION;
 	END TRY
@@ -899,16 +894,15 @@ EXEC('CREATE PROCEDURE upsUpdateProductTaxValue
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateProductTaxDescription' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE upsUpdateProductTaxValue
+EXEC('CREATE PROCEDURE uspUpdateProductTaxDescription
 		@TaxDescription VARCHAR(30),
 		@TaxID INT
 	AS
 	BEGIN TRY
-		SET NOCOUNT ON:
+		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			UPDATE ProductTax
-			SET
-				ProductTaxDescription = @TaxDescription
+			SET ProductTaxDescription = @TaxDescription
 			WHERE ProductTaxID = @TaxID
 		COMMIT TRANSACTION;
 	END TRY
@@ -1055,7 +1049,7 @@ EXEC('CREATE PROCEDURE uspDeleteDeal
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteProductTax' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspDeleteDeal
+EXEC('CREATE PROCEDURE uspDeleteProductTax
 		@TaxDescription VARCHAR(30)
 	AS
 	BEGIN TRY
@@ -1076,6 +1070,14 @@ GO
 
 
 /****** CREATE USER DEFINED FUNCTIONS  ******/
+
+CREATE FUNCTION udfGetLastDayOfYear ()
+RETURNS DATE
+AS
+BEGIN
+	RETURN CAST(DATEADD (dd, -1, DATEADD(yy, DATEDIFF(yy, 0, GETDATE()) +1, 0)) AS DATE);
+END
+GO
 
 CREATE FUNCTION udfGetEmployeeDOB (@IDNumber BIGINT)
 RETURNS DATE

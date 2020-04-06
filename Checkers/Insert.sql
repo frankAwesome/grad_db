@@ -600,11 +600,13 @@ EXEC uspInsertEmployee 1276516985614,'Galena','Rosario',193,'gelenaR@mail.com','
 EXEC uspInsertEmployee 1280237966869,'Rose','Benjamin',113,'roseBen@gmail.com','0625716859',7,48
 EXEC uspInsertEmployee 1050742227491,'Teegan','Mcfarland',11,'teeganmcF@mail.co.za','0704494096',5,41
 
+EXEC uspInsertMarkup 0.0
 EXEC uspInsertMarkup 10.0
 EXEC uspInsertMarkup 20.0
 EXEC uspInsertMarkup 25.0
 EXEC uspInsertMarkup 50.0
 EXEC uspInsertMarkup 75.0
 
-EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 4
-EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 2
+EXEC uspInsertDeal 'Standard', NULL, NULL, 'Standard no deal', 1
+EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 5
+EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 3
