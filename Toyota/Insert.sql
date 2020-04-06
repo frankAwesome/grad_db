@@ -489,112 +489,147 @@ EXEC uspInsertStore 'Protea Toyota', 1, 1, 48
 EXEC uspInsertStore 'Bidvest McCarthy Toyota N1 City', 1, 1, 49
 EXEC uspInsertStore 'Barloworld Toyota - Kuilsrivier', 1, 1, 50
 
-EXEC uspInsertEmployee 1804522625730,'Lewis','Rocha',186,'lewisRocha@gmail.com','0532680587',1,8
-EXEC uspInsertEmployee 925367849832,'Shana','Santana',75,'shana@hotmail.org','0774846141',1,34
-EXEC uspInsertEmployee 1206030267477,'Denise','Herrera',123,'dHerrera@gmail.com','0611418307',5,24
-EXEC uspInsertEmployee 1235703228274,'Samson','Le',174,'samson@hotmail.org','0819175978',6,17
-EXEC uspInsertEmployee 979424004629,'Jason','Graves',119,'gravesJ@gmail.com','0881392399',3,21
-EXEC uspInsertEmployee 1919299978158,'Kim','Barron',111,'KimBarron@gmail.com','0596158718',2,42
-EXEC uspInsertEmployee 1905726011144,'Jordan','Odom',60,'Jordan@htomail.co.za','0395305324',5,30
-EXEC uspInsertEmployee 893728560302,'Nehru','Terry',18,'nTerry@hotmail.org','0337136924',6,9
-EXEC uspInsertEmployee 1182075707894,'Tad','Cote',81,'tadCote@gmail.com','0601187361',6,34
-EXEC uspInsertEmployee 229391424963,'Adrienne','Case',8,'adrienne@gmail.com','0595852948',1,10
-EXEC uspInsertEmployee 682283112313,'Tanek','Moreno',106,'tanekM@hotmail.org','0602207556',4,33
-EXEC uspInsertEmployee 382240624958,'Joshua','Mendoza',87,'joshM@gmail.com','0305332053',2,14
-EXEC uspInsertEmployee 536664683465,'Jeremy','Marquez',133,'jeremy@gmail.com','0921745478',5,21
-EXEC uspInsertEmployee 1381386365555,'Sierra','Schmidt',171,'sierraSch@hotmail.co.za','0635945749',3,1
-EXEC uspInsertEmployee 1470178874163,'Stacy','Davis',138,'stacey@gmailcom','0166363838',3,19
-EXEC uspInsertEmployee 147796002170,'Kessie','Wilcox',67,'kessieWilcox@gmail.com','0412027386',4,20
-EXEC uspInsertEmployee 317905396316,'Isabella','Rosa',91,'issarosa@gmail.com','0205050847',5,48
-EXEC uspInsertEmployee 1023216535198,'Rudyard','Horton',37,'rudy@hotmail.com','0815693190',6,14
-EXEC uspInsertEmployee 461281890375,'Murphy','Russell',81,'murphRuss@gmail.com','0442928546',4,31
-EXEC uspInsertEmployee 568021843629,'Giacomo','Schroeder',38,'giaSchroeder@hotmail.org','0717110083',2,12
-EXEC uspInsertEmployee 1138337636739,'Rose','Fisher',100,'rosie@gmail.com','0195005457',1,3
-EXEC uspInsertEmployee 1916552496190,'Zelda','Rhodes',96,'zeldaRhodes@gmail.com','0352926223',6,9
-EXEC uspInsertEmployee 1330854604440,'Yardley','Chen',167,'yardchen@gmail.co.za','0414891693',1,8
-EXEC uspInsertEmployee 1363310047286,'Hope','Padilla',70,'hopePhil@gmail.com','0096928446',2,43
-EXEC uspInsertEmployee 815956967277,'Sara','Boyd',39,'saraboyd@hotmail.com','0561525383',1,50
-EXEC uspInsertEmployee 1103949240828,'Magee','Franklin',98,'mageeF@gmail.com','0898091720',4,24
-EXEC uspInsertEmployee 116583441291,'Lillith','Burke',158,'lilli@gmail.com','0561809769',4,33
-EXEC uspInsertEmployee 1872769623623,'Cade','Kelly',183,'cadeK@hotmail.co.za','0757390829',5,31
-EXEC uspInsertEmployee 831283148425,'Kylan','Bowers',130,'kylanbowers@gmail.com','0701829842',3,37
-EXEC uspInsertEmployee 551224556705,'Victoria','Ortega',178,'vicky@gmail.com','0587241590',3,13
-EXEC uspInsertEmployee 649353842577,'Minerva','Griffin',64,'minnieGrif@gmail.com','0289568841',4,48
-EXEC uspInsertEmployee 1643889526092,'Craig','Moss',180,'CraigMoss@gmail.com','0498855479',5,26
-EXEC uspInsertEmployee 120577858295,'Wesley','Fields',118,'fieldsW@gmail.com','0730572277',3,37
-EXEC uspInsertEmployee 573795562470,'Risa','Juarez',15,'risaJ@gmail.com','0970770324',3,38
-EXEC uspInsertEmployee 830722380942,'Hall','Wilkerson',187,'hall@htomail.org','0848131349',3,27
-EXEC uspInsertEmployee 1453073272621,'TaShya','Charles',18,'chalie@gmail.com','0370315460',6,44
-EXEC uspInsertEmployee 778271093825,'Justin','Scott',10,'scottJ@gmail.com','0295680515',1,1
-EXEC uspInsertEmployee 1780446774885,'Ruby','Hammond',14,'rubyH@hotmail.org','0801915835',6,2
-EXEC uspInsertEmployee 1269661409594,'Adena','Newman',134,'adenahewman@gmail.com','0964520726',1,4
-EXEC uspInsertEmployee 1243644644646,'Vera','Cross',32,'veraC@gmail.com','0270142733',2,35
-EXEC uspInsertEmployee 850699459528,'Gareth','Conley',80,'conley@gmail.com','0268181000',2,35
-EXEC uspInsertEmployee 1630753803719,'Nicole','Brown',150,'nikkieBrown@gmail.com','0110530853',2,43
-EXEC uspInsertEmployee 1127221500129,'Ross','Kelly',30,'rossk@mail.co.za','0154465472',3,30
-EXEC uspInsertEmployee 876692497963,'Renee','Pacheco',26,'reneePacheco@mail.org','0494697639',3,33
-EXEC uspInsertEmployee 271445601107,'Honorato','Nash',32,'nashH@gmail.com','0442882980',4,18
-EXEC uspInsertEmployee 1982614249178,'Deirdre','Downs',52,'deirdre@mail.co.za','0856001392',5,24
-EXEC uspInsertEmployee 1370573159820,'Nathan','Warren',127,'nateWarren@gmail.com','0997272770',4,16
-EXEC uspInsertEmployee 1437420630502,'Kadeem','Dillard',77,'kdillard@mail.org','0664465419',5,7
-EXEC uspInsertEmployee 797091831127,'Nicholas','Mendez',55,'nicholam@mail.com','0328565896',6,13
-EXEC uspInsertEmployee 964559586719,'Kylie','Howard',7,'khoward@mail.co.za','0829912157',1,31
-EXEC uspInsertEmployee 527091598371,'Hayden','Galloway',86,'haydenG@gmail.com','0254541216',2,19
-EXEC uspInsertEmployee 814219939103,'Tyler','Watts',148,'tywatts@mail.co.za','0582304483',3,10
-EXEC uspInsertEmployee 784567683376,'Kylie','Simpson',134,'simpson@hotmail.com','0646320314',4,30
-EXEC uspInsertEmployee 784905652376,'Martina','Bullock',193,'martinabull@gmail.com','0938266501',5,28
-EXEC uspInsertEmployee 993432188872,'Cassidy','Marshall',192,'cassidyM@hotmail.co.za','0409860655',6,12
-EXEC uspInsertEmployee 1065329511371,'Angela','Talley',190,'angieT@gmail.com','0189732471',5,37
-EXEC uspInsertEmployee 1078764814930,'Clementine','Oneal',115,'clemoneal@mail.org','0515503821',3,12
-EXEC uspInsertEmployee 674676709855,'Ingrid','Green',22,'ingridGreen@gmailcom','0673120181',2,38
-EXEC uspInsertEmployee 156754613295,'Burton','Elliott',78,'burton@gmail.com','0778527867',1,46
-EXEC uspInsertEmployee 1542290250212,'Malcolm','Walls',157,'wallsM@hotmal.org','0652025107',6,3
-EXEC uspInsertEmployee 1446463340381,'Nita','Warren',37,'nitawarren@gmailcom','0965015143',5,33
-EXEC uspInsertEmployee 660489540268,'Fiona','Lambert',60,'lambertF@mail.co.za','0870649431',2,32
-EXEC uspInsertEmployee 465898345131,'Kyle','Torres',43,'ktorres@mail.co.za','0970655807',6,11
-EXEC uspInsertEmployee 1170043418370,'Samantha','Rios',53,'sammie@gmail.com','0711850402',5,18
-EXEC uspInsertEmployee 1737886851607,'Jamal','Franks',173,'franksJ@gmail.com','0913175655',1,26
-EXEC uspInsertEmployee 996333559183,'Zenaida','Kane',86,'ZenaidaK@mail.co.za','0133033005',1,48
-EXEC uspInsertEmployee 1963646447659,'Gay','Kim',76,'gKim@mail.org','0771344702',4,3
-EXEC uspInsertEmployee 1921270459053,'Kameko','Grimes',107,'grimesK@hotmail.org','0401089538',1,34
-EXEC uspInsertEmployee 1075016468158,'Stacy','Rice',184,'staceyRice@gmail.com','0844649569',2,13
-EXEC uspInsertEmployee 1184554513218,'Ali','House',76,'alihouse@gmail.com','0868332639',3,34
-EXEC uspInsertEmployee 933025954803,'Simon','Kirkland',51,'siminK@hotmail.co.za','0439476766',3,39
-EXEC uspInsertEmployee 1792056030501,'Hanna','Hobbs',18,'hobbshanna@gmail.com','0726666968',5,32
-EXEC uspInsertEmployee 1097932060016,'Fleur','Bentley',145,'bentFleur@mail.co.za','0661434692',5,32
-EXEC uspInsertEmployee 1574072156288,'Gary','Cooley',163,'garyC@gmail.com','0444507876',4,27
-EXEC uspInsertEmployee 1932895694254,'Ralph','Holland',128,'ralphyh@gmail.com','0633217048',3,33
-EXEC uspInsertEmployee 966533723427,'Sage','Andrews',36,'sagie@hotmail.co.za','0794672301',2,29
-EXEC uspInsertEmployee 217015433218,'Gregory','Compton',1,'gregCompton@mail.com','0810999352',5,19
-EXEC uspInsertEmployee 1939383583190,'Mona','Hodge',97,'moanH@gmail.com','0779907178',4,48
-EXEC uspInsertEmployee 1560443856381,'Hamilton','Gross',79,'hamiltongross@gmail.com','0190342763',4,43
-EXEC uspInsertEmployee 1396431726776,'Jillian','Ellison',137,'jillelli@mail.co.za','0413117332',1,24
-EXEC uspInsertEmployee 1989113552357,'Lunea','Carrillo',20,'lunea@gmail.com','0957589634',1,28
-EXEC uspInsertEmployee 1750748466701,'Hop','Humphrey',44,'HopHump@gmail.com','0236058213',5,38
-EXEC uspInsertEmployee 936565778637,'Daryl','Mitchell',121,'darylM@hotmail.org','0580792062',5,34
-EXEC uspInsertEmployee 879795588320,'Stephen','Frederick',168,'stephen@gmail.com','0676016715',5,30
-EXEC uspInsertEmployee 1804638072290,'Tanisha','Colon',120,'tancol@mail.co.za','0235319736',6,47
-EXEC uspInsertEmployee 955358693004,'Amena','Heath',145,'amenahealth@gmail.com','0616842282',2,34
-EXEC uspInsertEmployee 391212312784,'Riley','Salas',135,'rileysalas@mail.co.za','0159278089',3,48
-EXEC uspInsertEmployee 584528249176,'Chadwick','Whitfield',166,'chadW@gmail.com','0357203487',3,17
-EXEC uspInsertEmployee 1784280649294,'Jonas','Little',145,'jonasLittle@gmail.com','0130001598',1,14
-EXEC uspInsertEmployee 1296975921141,'Christine','Mann',147,'christinemann@gmail.com','0686791261',3,30
-EXEC uspInsertEmployee 1925423981809,'Sydney','Weiss',21,'weissS@mail.co.za', '0718831925',3,28
-EXEC uspInsertEmployee 144531603902,'Shaine','Yates',22,'yatesShaine@gmail.com','0803284020',2,50
-EXEC uspInsertEmployee 1936463245471,'Celeste','Douglas',133,'douglasC@gmail.com','0784710041',6,20
-EXEC uspInsertEmployee 1121628007945,'Galvin','Spencer',28,'galvSpen@mail.co.za','0622730074',3,29
-EXEC uspInsertEmployee 354795704735,'Wing','Kaufman',181,'WingK@hotmail.org','0971189507',6,22
-EXEC uspInsertEmployee 1149065175047,'Breanna','Mccray',20,'Breanna@gmail.com','0180752166',4,8
-EXEC uspInsertEmployee 217192661436,'Barclay','Hester',47,'barclayhester@mail.org','0201034626',5,37
-EXEC uspInsertEmployee 1276516985614,'Galena','Rosario',193,'gelenaR@mail.com','0298082620',3,40
-EXEC uspInsertEmployee 1280237966869,'Rose','Benjamin',113,'roseBen@gmail.com','0625716859',6,48
-EXEC uspInsertEmployee 1050742227491,'Teegan','Mcfarland',11,'teeganmcF@mail.co.za','0704494096',5,41
+EXEC uspInsertOperationalCostType 'Water', 'Water for the store.'
+EXEC uspInsertOperationalCostType 'Electricity', 'Electricity for the store'
+EXEC uspInsertOperationalCostType 'Butcher clothing', 'Cloves, coats, and other items for butchers'
+EXEC uspInsertOperationalCostType 'Fuel', 'Fuel for company cars'
 
+EXEC uspInsertOperationalCost 1, 10000.00
+EXEC uspInsertOperationalCost 2, 40000.00
+
+EXEC uspInsertStoreOperationalCost 1, 1;
+EXEC uspInsertStoreOperationalCost 1, 2;
+EXEC uspInsertStoreOperationalCost 20, 2;
+EXEC uspInsertStoreOperationalCost 20, 1;
+
+EXEC uspInsertEmployee 1804122625730,'Lewis','Rocha',186,'lewisRocha@gmail.com','0532680587',1,8
+EXEC uspInsertEmployee 920307849832,'Shana','Santana',75,'shana@hotmail.org','0774846141',1,34
+EXEC uspInsertEmployee 1206030267477,'Denise','Herrera',123,'dHerrera@gmail.com','0611418307',5,24
+EXEC uspInsertEmployee 1212013228274,'Samson','Le',174,'samson@hotmail.org','0819175978',6,17
+EXEC uspInsertEmployee 970424004629,'Jason','Graves',119,'gravesJ@gmail.com','0881392399',3,21
+EXEC uspInsertEmployee 1901299978158,'Kim','Barron',111,'KimBarron@gmail.com','0596158718',2,42
+EXEC uspInsertEmployee 1905126011144,'Jordan','Odom',60,'Jordan@htomail.co.za','0395305324',6,30
+EXEC uspInsertEmployee 890928560302,'Nehru','Terry',18,'nTerry@hotmail.org','0337136924',1,9
+EXEC uspInsertEmployee 1112075707894,'Tad','Cote',81,'tadCote@gmail.com','0601187361',6,34
+EXEC uspInsertEmployee 220311424963,'Adrienne','Case',8,'adrienne@gmail.com','0595852948',2,10
+EXEC uspInsertEmployee 680223112313,'Tanek','Moreno',106,'tanekM@hotmail.org','0602207556',4,33
+EXEC uspInsertEmployee 380514624958,'Joshua','Mendoza',87,'joshM@gmail.com','0305332053',3,14
+EXEC uspInsertEmployee 530624683465,'Jeremy','Marquez',133,'jeremy@gmail.com','0921745478',5,21
+EXEC uspInsertEmployee 1311306365555,'Sierra','Schmidt',171,'sierraSch@hotmail.co.za','0635945749',4,1
+EXEC uspInsertEmployee 1408178874163,'Stacy','Davis',138,'stacey@gmailcom','0166363838',3,19
+EXEC uspInsertEmployee 140716002170,'Kessie','Wilcox',67,'kessieWilcox@gmail.com','0412027386',5,20
+EXEC uspInsertEmployee 310905396316,'Isabella','Rosa',91,'issarosa@gmail.com','0205050847',6,48
+EXEC uspInsertEmployee 1003216535198,'Rudyard','Horton',37,'rudy@hotmail.com','0815693190',6,14
+EXEC uspInsertEmployee 461201890375,'Murphy','Russell',81,'murphRuss@gmail.com','0442928546',4,31
+EXEC uspInsertEmployee 561221843629,'Giacomo','Schroeder',38,'giaSchroeder@hotmail.org','0717110083',2,12
+EXEC uspInsertEmployee 1108307636739,'Rose','Fisher',100,'rosie@gmail.com','0195005457',1,3
+EXEC uspInsertEmployee 1912252496190,'Zelda','Rhodes',96,'zeldaRhodes@gmail.com','0352926223',1,9
+EXEC uspInsertEmployee 1301054604440,'Yardley','Chen',167,'yardchen@gmail.co.za','0414891693',2,8
+EXEC uspInsertEmployee 1303310047286,'Hope','Padilla',70,'hopePhil@gmail.com','0096928446',3,43
+EXEC uspInsertEmployee 810926967277,'Sara','Boyd',39,'saraboyd@hotmail.com','0561525383',1,50
+EXEC uspInsertEmployee 1103149240828,'Magee','Franklin',98,'mageeF@gmail.com','0898091720',4,24
+EXEC uspInsertEmployee 110503441291,'Lillith','Burke',158,'lilli@gmail.com','0561809769',4,33
+EXEC uspInsertEmployee 1802269623623,'Cade','Kelly',183,'cadeK@hotmail.co.za','0757390829',5,31
+EXEC uspInsertEmployee 831203148425,'Kylan','Bowers',130,'kylanbowers@gmail.com','0701829842',3,37
+EXEC uspInsertEmployee 551224556705,'Victoria','Ortega',178,'vicky@gmail.com','0587241590',5,13
+EXEC uspInsertEmployee 640313842577,'Minerva','Griffin',64,'minnieGrif@gmail.com','0289568841',6,48
+EXEC uspInsertEmployee 1603189526092,'Craig','Moss',180,'CraigMoss@gmail.com','0498855479',1,26
+EXEC uspInsertEmployee 120517858295,'Wesley','Fields',118,'fieldsW@gmail.com','0730572277',3,37
+EXEC uspInsertEmployee 570715562470,'Risa','Juarez',15,'risaJ@gmail.com','0970770324',3,38
+EXEC uspInsertEmployee 830722380942,'Hall','Wilkerson',187,'hall@htomail.org','0848131349',3,27
+EXEC uspInsertEmployee 1403073272621,'TaShya','Charles',18,'chalie@gmail.com','0370315460',2,44
+EXEC uspInsertEmployee 771211093825,'Justin','Scott',10,'scottJ@gmail.com','0295680515',3,1
+EXEC uspInsertEmployee 1708046774885,'Ruby','Hammond',14,'rubyH@hotmail.org','0801915835',6,2
+EXEC uspInsertEmployee 1209061409594,'Adena','Newman',134,'adenahewman@gmail.com','0964520726',1,4
+EXEC uspInsertEmployee 1203144644646,'Vera','Cross',32,'veraC@gmail.com','0270142733',2,35
+EXEC uspInsertEmployee 850619459528,'Gareth','Conley',80,'conley@gmail.com','0268181000',4,35
+EXEC uspInsertEmployee 1603253803719,'Nicole','Brown',150,'nikkieBrown@gmail.com','0110530853',2,43
+EXEC uspInsertEmployee 1107221500129,'Ross','Kelly',31,'rossk@mail.co.za','0154465472',3,30
+EXEC uspInsertEmployee 870602497963,'Renee','Pacheco',26,'reneePacheco@mail.org','0494697639',5,33
+EXEC uspInsertEmployee 271015601107,'Honorato','Nash',32,'nashH@gmail.com','0442882980',4,18
+EXEC uspInsertEmployee 1902114249178,'Deirdre','Downs',52,'deirdre@mail.co.za','0856001392',5,24
+EXEC uspInsertEmployee 1310173159820,'Nathan','Warren',127,'nateWarren@gmail.com','0997272770',6,16
+EXEC uspInsertEmployee 1407020630502,'Kadeem','Dillard',77,'kdillard@mail.org','0664465419',1,7
+EXEC uspInsertEmployee 791021831127,'Nicholas','Mendez',55,'nicholam@mail.com','0328565896',2,13
+EXEC uspInsertEmployee 960519586719,'Kylie','Howard',7,'khoward@mail.co.za','0829912157',3,31
+EXEC uspInsertEmployee 521001598371,'Hayden','Galloway',86,'haydenG@gmail.com','0254541216',4,19
+EXEC uspInsertEmployee 810219939103,'Tyler','Watts',148,'tywatts@mail.co.za','0582304483',5,10
+EXEC uspInsertEmployee 780507683376,'Kylie','Simpson',134,'simpson@hotmail.com','0646320314',6,30
+EXEC uspInsertEmployee 780905652376,'Martina','Bullock',193,'martinabull@gmail.com','0938266501',7,28
+EXEC uspInsertEmployee 990412188872,'Cassidy','Marshall',192,'cassidyM@hotmail.co.za','0409860655',6,12
+EXEC uspInsertEmployee 1005029511371,'Angela','Talley',190,'angieT@gmail.com','0189732471',5,37
+EXEC uspInsertEmployee 1008264814930,'Clementine','Oneal',115,'clemoneal@mail.org','0515503821',3,12
+EXEC uspInsertEmployee 670626709855,'Ingrid','Green',22,'ingridGreen@gmailcom','0673120181',2,38
+EXEC uspInsertEmployee 150724613295,'Burton','Elliott',78,'burton@gmail.com','0778527867',1,46
+EXEC uspInsertEmployee 1502290250212,'Malcolm','Walls',157,'wallsM@hotmal.org','0652025107',6,3
+EXEC uspInsertEmployee 1406263340381,'Nita','Warren',37,'nitawarren@gmailcom','0965015143',5,33
+EXEC uspInsertEmployee 660429540268,'Fiona','Lambert',60,'lambertF@mail.co.za','0870649431',2,32
+EXEC uspInsertEmployee 460828345131,'Kyle','Torres',43,'ktorres@mail.co.za','0970655807',6,11
+EXEC uspInsertEmployee 1110043418370,'Samantha','Rios',53,'sammie@gmail.com','0711850402',5,18
+EXEC uspInsertEmployee 1707186851607,'Jamal','Franks',173,'franksJ@gmail.com','0913175655',1,26
+EXEC uspInsertEmployee 990303559183,'Zenaida','Kane',86,'ZenaidaK@mail.co.za','0133033005',1,48
+EXEC uspInsertEmployee 1903146447659,'Gay','Kim',76,'gKim@mail.org','0771344702',4,3
+EXEC uspInsertEmployee 1901270459053,'Kameko','Grimes',107,'grimesK@hotmail.org','0401089538',1,34
+EXEC uspInsertEmployee 1005016468158,'Stacy','Rice',184,'staceyRice@gmail.com','0844649569',2,13
+EXEC uspInsertEmployee 1104254513218,'Ali','House',76,'alihouse@gmail.com','0868332639',3,34
+EXEC uspInsertEmployee 931025954803,'Simon','Kirkland',51,'siminK@hotmail.co.za','0439476766',3,39
+EXEC uspInsertEmployee 1712056030501,'Hanna','Hobbs',18,'hobbshanna@gmail.com','0726666968',5,32
+EXEC uspInsertEmployee 1007132060016,'Fleur','Bentley',145,'bentFleur@mail.co.za','0661434692',5,32
+EXEC uspInsertEmployee 1504072156288,'Gary','Cooley',163,'garyC@gmail.com','0444507876',4,27
+EXEC uspInsertEmployee 1912195694254,'Ralph','Holland',128,'ralphyh@gmail.com','0633217048',3,33
+EXEC uspInsertEmployee 960523723427,'Sage','Andrews',36,'sagie@hotmail.co.za','0794672301',2,29
+EXEC uspInsertEmployee 211015433218,'Gregory','Compton',1,'gregCompton@mail.com','0810999352',5,19
+EXEC uspInsertEmployee 1909283583190,'Mona','Hodge',97,'moanH@gmail.com','0779907178',4,48
+EXEC uspInsertEmployee 1510243856381,'Hamilton','Gross',79,'hamiltongross@gmail.com','0190342763',4,43
+EXEC uspInsertEmployee 1306031726776,'Jillian','Ellison',137,'jillelli@mail.co.za','0413117332',1,24
+EXEC uspInsertEmployee 1989113552357,'Lunea','Carrillo',20,'lunea@gmail.com','0957589634',1,28
+EXEC uspInsertEmployee 1710148466701,'Hop','Humphrey',44,'HopHump@gmail.com','0236058213',5,38
+EXEC uspInsertEmployee 930515778637,'Daryl','Mitchell',121,'darylM@hotmail.org','0580792062',5,34
+EXEC uspInsertEmployee 870725588320,'Stephen','Frederick',168,'stephen@gmail.com','0676016715',5,30
+EXEC uspInsertEmployee 1804138072290,'Tanisha','Colon',120,'tancol@mail.co.za','0235319736',6,47
+EXEC uspInsertEmployee 950318693004,'Amena','Heath',145,'amenahealth@gmail.com','0616842282',2,34
+EXEC uspInsertEmployee 391212312784,'Riley','Salas',135,'rileysalas@mail.co.za','0159278089',3,48
+EXEC uspInsertEmployee 580528249176,'Chadwick','Whitfield',166,'chadW@gmail.com','0357203487',3,17
+EXEC uspInsertEmployee 1704280649294,'Jonas','Little',145,'jonasLittle@gmail.com','0130001598',1,14
+EXEC uspInsertEmployee 1206275921141,'Christine','Mann',147,'christinemann@gmail.com','0686791261',3,30
+EXEC uspInsertEmployee 1905123981809,'Sydney','Weiss',21,'weissS@mail.co.za', '0718831925',3,28
+EXEC uspInsertEmployee 140521603902,'Shaine','Yates',22,'yatesShaine@gmail.com','0803284020',2,50
+EXEC uspInsertEmployee 1906163245471,'Celeste','Douglas',133,'douglasC@gmail.com','0784710041',6,20
+EXEC uspInsertEmployee 1101228007945,'Galvin','Spencer',28,'galvSpen@mail.co.za','0622730074',3,29
+EXEC uspInsertEmployee 350705704735,'Wing','Kaufman',181,'WingK@hotmail.org','0971189507',6,22
+EXEC uspInsertEmployee 1109065175047,'Breanna','Mccray',20,'Breanna@gmail.com','0180752166',4,8
+EXEC uspInsertEmployee 210102661436,'Barclay','Hester',47,'barclayhester@mail.org','0201034626',5,37
+EXEC uspInsertEmployee 1206016985614,'Galena','Rosario',193,'gelenaR@mail.com','0298082620',3,40
+EXEC uspInsertEmployee 1210237966869,'Rose','Benjamin',113,'roseBen@gmail.com','0625716859',6,48
+EXEC uspInsertEmployee 1010142227491,'Teegan','Mcfarland',11,'teeganmcF@mail.co.za','0704494096',5,41
+
+EXEC uspInsertMarkup 0.0
 EXEC uspInsertMarkup 10.0
 EXEC uspInsertMarkup 20.0
 EXEC uspInsertMarkup 25.0
 EXEC uspInsertMarkup 50.0
 EXEC uspInsertMarkup 75.0
 
-EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 4
-EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 2
+EXEC uspInsertDeal 'Standard', NULL, NULL, 'Standard no deal', 1
+EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 5
+EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 3
+
+EXEC uspInsertSupplier 'Supplier One', 'supplier1@gmail.com', '0825546658', 12
+EXEC uspInsertSupplier 'Supplier Two', 'supplier2@gmail.com', '0115426897', 50
+EXEC uspInsertSupplier 'Supplier Three', 'supplier3@gmail.com', '0115589745', 2
+EXEC uspInsertSupplier 'Supplier Four', 'supplier4@gmail.com', '0325548956', 16
+EXEC uspInsertSupplier 'Supplier Five', 'supplier5@gmail.com', '0114572323', 30
+
+EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
+EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 3, 3, '2020-04-26', 3, 'Order Received', NULL
+EXEC uspInsertStoreOrder 4, 4, '2020-04-27', 4, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 1, 5, '2020-04-28', 5, 'Order On Route', NULL
+EXEC uspInsertStoreOrder 2, 6, '2020-04-28', 6, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 3, 7, '2020-04-28', 7, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 4, 8, '2020-04-28', 8, 'Order Received', NULL
+
+EXEC uspInsertOrderProduct 1, 1, 20
+EXEC uspInsertOrderProduct 2, 2, 400
+EXEC uspInsertOrderProduct 3, 3, 700
+EXEC uspInsertOrderProduct 4, 4, 5
