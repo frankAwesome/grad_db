@@ -44,7 +44,7 @@ CREATE TABLE Province
 CREATE TABLE City
 (
 	CityID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	CityName VARCHAR(50) UNIQUE NOT NULL,
+	CityName VARCHAR(50) NOT NULL,
 	ProvinceID INT FOREIGN KEY REFERENCES Province(ProvinceID)
 );
 
@@ -128,7 +128,7 @@ CREATE TABLE Employee
 	LastName VARCHAR(50),
 	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) NOT NULL,
 	Email VARCHAR(20) UNIQUE,
-	Phone VARCHAR(10) UNIQUE NOT NULL,
+	Phone CHAR(10) UNIQUE NOT NULL,
 	RolePermissionID INT FOREIGN KEY REFERENCES RolePermission(RolePermissionID) NOT NULL,
 	StoreID INT FOREIGN KEY REFERENCES Store(StoreID)
 );
@@ -309,6 +309,35 @@ CREATE TABLE StockTakeProduct
 	CONSTRAINT FK_ProductToStockTake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
 );
 
+CREATE TABLE Supplier
+(
+	SupplierID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Name VARCHAR(60) UNIQUE NOT NULL,
+	Email VARCHAR(20) UNIQUE NOT NULL,
+	Phone CHAR(10) UNIQUE NOT NULL,
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
+);
+
+CREATE TABLE StoreOrder
+(
+	OrderID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	SupplierID INT FOREIGN KEY REFERENCES Supplier(SupplierID) NOT NULL,
+	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) NOT NULL,
+	OrderDate DATE NOT NULL,
+	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID),
+	OrderStatus VARCHAR(20) NOT NULL,
+	DateReceived DATE
+);
+
+CREATE TABLE OrderProduct
+(
+	BaseProductID INT NOT NULL,
+	OrderID INT NOT NULL,
+	Quantity BIGINT,
+	CONSTRAINT PK_OrderToProduct PRIMARY KEY (BaseProductID, OrderID),
+	CONSTRAINT FK_OrderToProduct FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID),
+	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
+);
 
 
 
@@ -317,11 +346,19 @@ CREATE TABLE StockTakeProduct
 ********************************************************************************************************************************************/
 
 ALTER TABLE Employee
-ADD CONSTRAINT CHK_Valid_Email
+ADD CONSTRAINT CHK_Employee_Valid_Email
 CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
 
 ALTER TABLE Employee
-ADD CONSTRAINT CHK_Valid_Phone
+ADD CONSTRAINT CHK_Employee_Valid_Phone
+CHECK(Phone NOT LIKE '%[^0-9]%');
+
+ALTER TABLE Supplier
+ADD CONSTRAINT CHK_Supplier_Valid_Email
+CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
+
+ALTER TABLE Supplier
+ADD CONSTRAINT CHK_Supplier_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
 
@@ -658,7 +695,7 @@ EXEC('CREATE PROCEDURE uspInsertEmployee
 		@LastName VARCHAR(50),
 		@AddressID INT,
 		@Email VARCHAR(20),
-		@Phone VARCHAR(10),
+		@Phone CHAR(10),
 		@RolePermissionID INT,
 		@StoreID INT
 	AS
@@ -722,6 +759,67 @@ EXEC('CREATE PROCEDURE uspInsertProductTax
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO ProductTax VALUES(@TaxDescription, @TaxValue);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSupplier' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertSupplier
+		@Name VARCHAR(60),
+		@Email VARCHAR(20),
+		@Phone CHAR(10),
+		@AddressID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO Supplier VALUES(@Name, @Email, @Phone, @AddressID);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertStoreOrder
+		@StoreID INT,
+		@SupplierID INT,
+		@OrderDate DATE,
+		@EmployeeID INT,
+		@OrderStatus VARCHAR(20),
+		@DateReceived DATE
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO StoreOrder VALUES(@StoreID, @SupplierID, @OrderDate, @EmployeeID, @OrderStatus, @DateReceived);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOrderProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertOrderProduct
+		@BaseProductID INT,
+		@OrderID INT,
+		@Quantity BIGINT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO OrderProduct VALUES(@BaseProductID, @OrderID, @Quantity);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -843,8 +941,8 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateEmployeePhone' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateEmployeePhone
-		@OldPhone VARCHAR(20),
-		@NewPhone VARCHAR(20)
+		@OldPhone CHAR(10),
+		@NewPhone CHAR(10)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -995,6 +1093,86 @@ EXEC('CREATE PROCEDURE uspUpdateProductTaxDescription
 			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
 	END CATCH')
 GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSupplierEmail' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateSupplierEmail
+		@SupplierName VARCHAR(60),
+		@Email VARCHAR(20)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Supplier
+			SET Email = @Email
+			WHERE Name = @SupplierName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSupplierPhone' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateSupplierPhone
+		@SupplierName VARCHAR(60),
+		@Phone VARCHAR(10)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Supplier
+			SET Phone = @Phone
+			WHERE Name = @SupplierName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreOrderStatus' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateStoreOrderStatus
+		@OrderID INT,
+		@OrderStatus VARCHAR(20)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE StoreOrder
+			SET OrderStatus = @OrderStatus
+			WHERE OrderID = @OrderID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreOrderDateReceived' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateStoreOrderDateReceived
+		@OrderID INT,
+		@DateReceived DATE
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE StoreOrder
+			SET DateReceived = @DateReceived
+			WHERE OrderID = @OrderID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
 
 
 
@@ -1150,6 +1328,61 @@ EXEC('CREATE PROCEDURE uspDeleteProductTax
 	END CATCH')
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSupplier' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteSupplier
+		@SupplierName VARCHAR(60)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Supplier
+			WHERE Name = @SupplierName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteStoreOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteStoreOrder
+		@OrderID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM StoreOrder
+			WHERE OrderID = @OrderID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteOrderProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteOrderProduct
+		@BaseProductID INT,
+		@OrderID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM OrderProduct
+			WHERE OrderID = @OrderID AND BaseProductID = @BaseProductID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
 
 
 
@@ -1248,4 +1481,53 @@ AS
 BEGIN
 	RETURN (SELECT ProvinceID FROM Province WHERE ProvinceName = @ProvinceName);
 END
+GO
+
+CREATE FUNCTION udfGetOrdersForStore(@StoreName VARCHAR(100))
+RETURNS TABLE
+AS
+	RETURN (SELECT orders.OrderID AS OrderID, supplier.Name AS Supplier, store.StoreName AS Store, orders.OrderDate AS OrderDate, orders.EmployeeID AS EmployeeID, orders.OrderStatus AS OrderStatus, orders.DateReceived AS DateReceived
+			FROM StoreOrder AS orders
+			JOIN Store AS store ON store.StoreID = orders.StoreID
+			JOIN Supplier AS supplier ON orders.SupplierID = supplier.SupplierID
+			WHERE store.StoreName = @StoreName);
+GO
+
+CREATE FUNCTION udfGetOrdersForSupplier(@SupplierName VARCHAR(60))
+RETURNS TABLE
+AS
+	RETURN (SELECT orders.OrderID AS OrderID, store.StoreName AS Store, orders.OrderDate AS OrderDate, orders.EmployeeID AS EmployeeID, orders.OrderStatus AS OrderStatus, orders.DateReceived AS DateReceived
+			FROM StoreOrder AS orders
+			JOIN Store AS store ON store.StoreID = orders.StoreID
+			JOIN Supplier as supplier ON orders.SupplierID = supplier.SupplierID
+			WHERE supplier.Name = @SupplierName);
+GO
+
+CREATE FUNCTION udfGetOrderStatus(@OrderID INT)
+RETURNS VARCHAR(20)
+AS
+BEGIN
+	RETURN (SELECT OrderStatus FROM StoreOrder WHERE OrderID = @OrderID);
+END
+GO
+
+CREATE FUNCTION udfGetProductsOfAnOrder(@OrderID INT)
+RETURNS TABLE
+AS
+	RETURN (SELECT baseProduct.BaseProductID, orderProduct.Quantity
+			FROM OrderProduct as orderProduct
+			JOIN BaseProduct AS baseProduct ON orderProduct.BaseProductID = baseProduct.BaseProductID
+			WHERE orderProduct.OrderID = @OrderID);
+GO
+
+CREATE FUNCTION udfGetOrdersCreatedByAnEmployee(@EmployeeID INT)
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM StoreOrder WHERE EmployeeID = @EmployeeID);
+GO
+
+CREATE FUNCTION udfGetOrdersByStatus(@OrderStatus VARCHAR(20))
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM StoreOrder WHERE OrderStatus = @OrderStatus);
 GO
