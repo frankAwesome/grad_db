@@ -63,20 +63,6 @@ CREATE TABLE Address
 	SuburbID INT FOREIGN KEY REFERENCES Suburb(SuburbID)
 );
 
-CREATE TABLE OperationalCostType
-(
-	OperationalCostTypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Name VARCHAR(100) NOT NULL,
-	Description VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE OperationalCost
-(
-	OperationalCostID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	OperationalCostTypeID INT FOREIGN KEY REFERENCES OperationalCostType(OperationalCostTypeID),
-	Amount DECIMAL(20,2) NOT NULL
-);
-
 CREATE TABLE StoreType
 (
 	TypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -89,10 +75,29 @@ CREATE TABLE Store
 	StoreName VARCHAR(50) UNIQUE NOT NULL,
 	TypeID INT FOREIGN KEY REFERENCES StoreType(TypeID),
 	CompanyID INT FOREIGN KEY REFERENCES Company(CompanyID),
-	AddressID INT FOREIGN KEY REFERENCES Address(AddressID),
-	OperationalCostID INT FOREIGN KEY REFERENCES OperationalCost(OperationalCostID),
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
 );
 
+CREATE TABLE OperationalCostType
+(
+	OperationalCostTypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Name VARCHAR(100) NOT NULL,
+	Description VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE OperationalCost
+(
+	OperationalCostID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	OperationalCostTypeID INT FOREIGN KEY REFERENCES OperationalCostType(OperationalCostTypeID) NOT NULL,
+	Amount DECIMAL(20,2) NOT NULL
+);
+
+CREATE TABLE StoreOperationalCost
+(
+	StoreOperationalCostID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) NOT NULL,
+	OperationalCostID INT FOREIGN KEY REFERENCES OperationalCost(OperationalCostID) NOT NULL
+);
 
 CREATE TABLE Role
 (
@@ -161,8 +166,8 @@ CREATE TABLE Category
 
 CREATE TABLE BaseProduct
 (
-	BaseProductID INT IDENTITY(1,1) PRIMARY KEY,
-	CategoryID INT FOREIGN KEY REFERENCES Category(CategoryID),
+	BaseProductID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	CategoryID INT FOREIGN KEY REFERENCES Category(CategoryID) NOT NULL,
 	BaseProductName VARCHAR(50) NOT NULL,
 	BaseProductDescription VARCHAR(100) NOT NULL,
 	BaseProductPicture VARCHAR(50) NOT NULL,
@@ -537,6 +542,24 @@ EXEC('CREATE PROCEDURE uspInsertOperationalCost
 	END CATCH')
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreOperationalCost' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertStoreOperationalCost
+		@StoreID INT,
+		@OperationalCostTypeID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO StoreOperationalCost VALUES(@StoreID, @OperationalCostTypeID);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreType' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertStoreType
 		@TypeName VARCHAR(40)
@@ -559,13 +582,12 @@ EXEC('CREATE PROCEDURE uspInsertStore
 		@StoreName VARCHAR(50),
 		@TypeID INT,
 		@CompanyID INT,
-		@AddressID INT,
-		@OperationalCostID INT
+		@AddressID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO Store VALUES(@StoreName, @TypeID, @CompanyID, @AddressID, @OperationalCostID);
+			INSERT INTO Store VALUES(@StoreName, @TypeID, @CompanyID, @AddressID);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
