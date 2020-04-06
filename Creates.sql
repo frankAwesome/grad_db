@@ -66,6 +66,7 @@ CREATE TABLE Address
 CREATE TABLE OperationalCostType
 (
 	OperationalCostTypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Name VARCHAR(100) NOT NULL,
 	Description VARCHAR(100) NOT NULL
 );
 
@@ -500,6 +501,42 @@ EXEC('CREATE PROCEDURE uspInsertAddress
 	END CATCH')
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOperationalCostType' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertOperationalCostType
+		@Name VARCHAR(100),
+		@Description VARCHAR(100)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO OperationalCostType VALUES(@Name, @Description);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOperationalCost' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertOperationalCost
+		@OperationalCostTypeID INT,
+		@Amount DECIMAL(20,2)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO OperationalCost VALUES(@OperationalCostTypeID, @Amount);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreType' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertStoreType
 		@TypeName VARCHAR(40)
@@ -522,12 +559,13 @@ EXEC('CREATE PROCEDURE uspInsertStore
 		@StoreName VARCHAR(50),
 		@TypeID INT,
 		@CompanyID INT,
-		@AddressID INT
+		@AddressID INT,
+		@OperationalCostID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO Store VALUES(@StoreName, @TypeID, @CompanyID, @AddressID);
+			INSERT INTO Store VALUES(@StoreName, @TypeID, @CompanyID, @AddressID, @OperationalCostID);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
