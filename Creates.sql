@@ -237,9 +237,9 @@ CREATE TABLE SaleReturn
 	SaleID INT NOT NULL,
 	BaseProductID INT NOT NULL,
 	Quantity INT NOT NULL
-	CONSTRAINT pk_returntosale PRIMARY KEY (ReturnID, SaleID, BaseProductID),
-	CONSTRAINT fk_returntosale FOREIGN KEY (ReturnID) REFERENCES SReturn(ReturnID),
-	CONSTRAINT fk_saletoreturn FOREIGN KEY (SaleID,BaseProductID) REFERENCES SaleProduct(SaleID,BaseProductID)
+	CONSTRAINT PK_ReturnToSale PRIMARY KEY (ReturnID, SaleID, BaseProductID),
+	CONSTRAINT FK_ReturnToSale FOREIGN KEY (ReturnID) REFERENCES SReturn(ReturnID),
+	CONSTRAINT FK_SaleToReturn FOREIGN KEY (SaleID,BaseProductID) REFERENCES SaleProduct(SaleID,BaseProductID)
 );
 
 CREATE TABLE WriteoffReason
@@ -261,9 +261,9 @@ CREATE TABLE ProductWriteoff
 	StoreID INT NOT NULL,
 	WriteoffReasonID INT FOREIGN KEY REFERENCES WriteoffReason(WriteoffReasonID),
 	Quantity INT NOT NULL,
-	CONSTRAINT pk_writeofftoproduct PRIMARY KEY (WriteoffID, BaseProductID, StoreID),
-	CONSTRAINT fk_writeofftoproduct FOREIGN KEY (WriteoffID) REFERENCES Writeoff(WriteoffID),
-	CONSTRAINT fk_producttowriteoff FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+	CONSTRAINT PK_WriteOffToProduct PRIMARY KEY (WriteoffID, BaseProductID, StoreID),
+	CONSTRAINT FK_WriteOffToProduct FOREIGN KEY (WriteoffID) REFERENCES Writeoff(WriteoffID),
+	CONSTRAINT FK_ProductToWriteOff FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
 );
 
 CREATE TABLE StockTake
@@ -279,9 +279,9 @@ CREATE TABLE StockTakeProduct
 	BaseProductID INT NOT NULL,
 	StoreID INT NOT NULL,
 	NumberCounted INT NOT NULL,
-	CONSTRAINT pk_stocktaketoproduct PRIMARY KEY (StocktakeID,BaseProductID,StoreID),
-	CONSTRAINT fk_stocktaketoproduct FOREIGN KEY (StocktakeID) REFERENCES StockTake(StocktakeID),
-	CONSTRAINT fk_producttostocktake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+	CONSTRAINT PK_StockTakeToProduct PRIMARY KEY (StocktakeID,BaseProductID,StoreID),
+	CONSTRAINT FK_StockTakeToProduct FOREIGN KEY (StocktakeID) REFERENCES StockTake(StocktakeID),
+	CONSTRAINT FK_ProductToStockTake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
 );
 
 /****** CREATE TABLES END  ******/
