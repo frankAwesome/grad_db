@@ -3,22 +3,24 @@
 USE GenericCompanyDB
 GO
 
-INSERT INTO Company VALUES ('Pick & Pay','2018-10-20','Pick & Pay is a general grocery store'),
+INSERT INTO Company(CompanyName,DateOfEstablish,Description) VALUES ('Pick & Pay','2018-10-20','Pick & Pay is a general grocery store'),
 		('We buy cars','2000-01-02','Easy car sales'),
 		('Incredible Connection','1993-03-01','All purpose tech store'),
 		('Woolworths','1999-02-09','Groceries and all purpose store'),
 		('Checkers','2002-02-02','Checkers is a general grocery store');
 
-INSERT INTO Province VALUES('Gauteng'), ('Western Cape'), ('Free State'), ('Northern Cape'), ('Limpopo'), ('North West'), ('Eastern Cape'), ('Kwazulu Natal'), ('Mpumalanga')
+INSERT INTO Province(ProvinceName) VALUES ('Gauteng'), ('Western Cape'), ('Free State'), ('Northern Cape'), ('Limpopo'), ('North West'), ('Eastern Cape'), ('Kwazulu Natal'), ('Mpumalanga');
 
-INSERT INTO City VALUES ('Pretoria', 1),('Johannesburg', 1),('Durban', 8),('East London', 7),('Cape Town', 2);
+INSERT INTO City(CityName,ProvinceID) VALUES ('Pretoria', 1),('Johannesburg', 1),('Durban', 8),('East London', 7),('Cape Town', 2);
 
-INSERT INTO Suburb VALUES ('Hatfield','0083',1),('Groenkloof','0181',1),('Boysens','2016',2),('Rosebank','2196',2),('Goodwood','7460',5),('Kensington','7405',5)
+INSERT INTO Suburb(SuburbName,PostalCode,CityID) VALUES ('Hatfield','0083',1),('Groenkloof','0181',1),('Boysens','2016',2),('Rosebank','2196',2),('Goodwood','7460',5),('Kensington','7405',5)
 
-INSERT INTO Address VALUES ('1115 Burnett St','1'),('Duncan St','1'),('1 Sturdee Ave','4'),('33 Paarl St','5'),('89 Hugo St','5');
+INSERT INTO Address(AddressName,SuburbID) VALUES ('1115 Burnett St','1'),('Duncan St','1'),('1 Sturdee Ave','4'),('33 Paarl St','5'),('89 Hugo St','5');
 
-INSERT INTO Store(StoreName,CompanyID,AddressID)
-VALUES ('Highveld Spar',3,5),('Jean Village Spar',2,1),('Lifestyle Centre Spar',5,4),('Northcliff Spar',3,3),('Stellenbosch Spar',5,2);
+INSERT INTO StoreType(TypeName) VALUES ('GWilly'),('Ty'),('shop'),('Fun'),('General');
+
+INSERT INTO Store(StoreName,TypeID,CompanyID,AddressID)
+VALUES ('Highveld Spar',1,3,5),('Jean Village Spar',2,2,1),('Lifestyle Centre Spar',3,5,4),('Northcliff Spar',4,3,3),('Stellenbosch Spar',5,5,2);
 
 INSERT INTO Role(RoleName, Description)
 VALUES	('Director', 'Decides on broader company direction'),

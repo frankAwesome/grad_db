@@ -142,7 +142,7 @@ CREATE TABLE SubCategory
 (
 	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	SubCategoryName VARCHAR(50) NOT NULL,
-	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID) NOT NULL
+	CategoryID INT FOREIGN KEY REFERENCES MainCategory(CategoryID) NOT NULL
 );
 
 CREATE TABLE BaseProduct
@@ -188,27 +188,27 @@ CREATE TABLE SaleProduct
 	REFERENCES BaseProduct(BaseProductID)
 );
 
--- CREATE TABLE BillingType
--- (
--- 	BillingTypeID INT IDENTITY(1,1) PRIMARY KEY,
--- 	BillingTypeName VARCHAR(50) NOT NULL,
--- 	BillingTypeDescription VARCHAR(100) NOT NULL,
--- );
+ CREATE TABLE BillingType
+ (
+ 	BillingTypeID INT IDENTITY(1,1) PRIMARY KEY,
+ 	BillingTypeName VARCHAR(50) NOT NULL,
+ 	BillingTypeDescription VARCHAR(100) NOT NULL,
+ );
 
--- CREATE TABLE ProductInstance
--- (
--- 	ProductInstanceID INT IDENTITY(1,1) PRIMARY KEY,
--- 	BaseProductID INT FOREIGN KEY REFERENCES BaseProduct(BaseProductID),
--- 	BillingTypeID INT FOREIGN KEY REFERENCES BillingType(BillingTypeID),
--- 	ProductIntancePrice DECIMAL(10,2) NOT NULL,
--- );
+ CREATE TABLE ProductInstance
+ (
+ 	ProductInstanceID INT IDENTITY(1,1) PRIMARY KEY,
+ 	BaseProductID INT FOREIGN KEY REFERENCES BaseProduct(BaseProductID),
+ 	BillingTypeID INT FOREIGN KEY REFERENCES BillingType(BillingTypeID),
+ 	ProductIntancePrice DECIMAL(10,2) NOT NULL,
+ );
 
--- CREATE TABLE ProductQuantity
--- (
--- 	ProductQuantityID INT IDENTITY(1,1) PRIMARY KEY,
--- 	ProductInstanceID INT FOREIGN KEY REFERENCES ProductInstance(ProductInstanceID),
--- 	ProductQuantityQty INT,
--- );
+ CREATE TABLE ProductQuantity
+ (
+ 	ProductQuantityID INT IDENTITY(1,1) PRIMARY KEY,
+ 	ProductInstanceID INT FOREIGN KEY REFERENCES ProductInstance(ProductInstanceID),
+ 	ProductQuantityQty INT,
+ );
 
 CREATE TABLE ProductAttribute
 (
