@@ -318,7 +318,7 @@ CREATE TABLE Supplier
 	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
 );
 
-CREATE TABLE Order
+CREATE TABLE StoreOrder
 (
 	OrderID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	SupplierID INT FOREIGN KEY REFERENCES Supplier(SupplierID) NOT NULL,
@@ -797,8 +797,8 @@ EXEC('CREATE PROCEDURE uspInsertSupplier
 	END CATCH')
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOrder' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspInsertOrder
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertStoreOrder
 		@SupplierID INT,
 		@StoreID INT,
 		@OrderDate DATE,
@@ -809,7 +809,7 @@ EXEC('CREATE PROCEDURE uspInsertOrder
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO Order VALUES(@SupplierID, @StoreID, @OrderDate, @EmployeeID, @OrderStatus, @DateReceived);
+			INSERT INTO StoreOrder VALUES(@SupplierID, @StoreID, @OrderDate, @EmployeeID, @OrderStatus, @DateReceived);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1161,15 +1161,15 @@ EXEC('CREATE PROCEDURE uspUpdateSupplierPhone
 	END CATCH')
 GO 
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateOrderStatus' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspUpdateOrderStatus
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreOrderStatus' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateStoreOrderStatus
 		@OrderID INT,
 		@OrderStatus VARCHAR(20)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			UPDATE Order
+			UPDATE StoreOrder
 			SET OrderStatus = @OrderStatus
 			WHERE OrderID = @OrderID
 		COMMIT TRANSACTION;
@@ -1181,15 +1181,15 @@ EXEC('CREATE PROCEDURE uspUpdateOrderStatus
 	END CATCH')
 GO 
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateOrderDateReceived' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspUpdateOrderDateReceived
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreOrderDateReceived' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateStoreOrderDateReceived
 		@OrderID INT,
 		@DateReceived DATE
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			UPDATE Order
+			UPDATE StoreOrder
 			SET DateReceived = @DateReceived
 			WHERE OrderID = @OrderID
 		COMMIT TRANSACTION;
@@ -1373,14 +1373,14 @@ EXEC('CREATE PROCEDURE uspDeleteSupplier
 	END CATCH')
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteOrder' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspDeleteOrder
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteStoreOrder' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteStoreOrder
 		@OrderID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			DELETE FROM Order
+			DELETE FROM StoreOrder
 			WHERE OrderID = @OrderID
 		COMMIT TRANSACTION;
 	END TRY
@@ -1527,4 +1527,45 @@ AS
 BEGIN
 	RETURN (SELECT ProvinceID FROM Province WHERE ProvinceName = @ProvinceName);
 END
+GO
+
+CREATE FUNCTION udfGetOrderForStore(@StoreName VARCHAR(100))
+RETURNS TABLE
+AS
+	RETURN (SELECT orders.OrderID 
+			FROM StoreOrder AS orders
+			JOIN Store AS store ON store.StoreID = orders.StoreID
+			WHERE store.StoreName = @StoreName);
+GO
+
+CREATE FUNCTION udfGetOrdersForSupplier(@SupplierName VARCHAR(60))
+RETURNS TABLE
+AS
+	RETURN (SELECT * 
+			FROM StoreOrder AS orders
+			JOIN Supplier as supplier ON orders.SupplierID = supplier.SupplierID
+			WHERE supplier.Name = @SupplierName);
+GO
+
+CREATE FUNCTION udfGetOrderStatus(@OrderID INT)
+RETURNS VARCHAR(20)
+AS
+BEGIN
+	RETURN (SELECT OrderStatus FROM StoreOrder WHERE OrderID = @OrderID);
+END
+GO
+
+CREATE FUNCTION udfGetProductsOfAnOrder(@OrderID INT)
+RETURNS TABLE
+AS
+	RETURN (SELECT subCategory.SubCategoryName, orderProduct.Quantity
+			FROM OrderProduct as orderProduct
+			JOIN SubCategory AS subCategory ON orderProduct.SubCategoryID = subCategory.SubCategoryID
+			WHERE orderProduct.OrderID = @OrderID);
+GO
+
+CREATE FUNCTION udfGetOrdersCreatedByAnEmployee(@EmployeeID INT)
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM StoreOrder WHERE EmployeeID = @EmployeeID);
 GO
