@@ -309,6 +309,44 @@ CREATE TABLE StockTakeProduct
 	CONSTRAINT FK_ProductToStockTake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
 );
 
+CREATE TABLE Supplier
+(
+	SupplierID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Name VARCHAR(60) NOT NULL,
+	Email VARCHAR(20) NOT NULL,
+	Phone VARCHAR(10) NOT NULL,
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
+);
+
+CREATE TABLE Order
+(
+	OrderID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	SupplierID INT FOREIGN KEY REFERENCES Supplier(SupplierID) NOT NULL,
+	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) NOT NULL,
+	OrderDate DATE NOT NULL,
+	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID),
+	OrderStatus VARCHAR(20) NOT NULL,
+	DateReceived DATE
+);
+
+CREATE TABLE SupplierOrder
+(
+	SupplierID INT NOT NULL,
+	OrderID INT NOT NULL,
+	CONSTRAINT PK_SupplierToOrder PRIMARY KEY (SupplierID, OrderID),
+	CONSTRAINT FK_SupplierToOrder FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
+	CONSTRAINT FK_OrderToSupplier FOREIGN KEY (OrderID) REFERENCES Order(OrderID)
+);
+
+CREATE TABLE OrderProduct
+(
+	SubCategoryID INT NOT NULL,
+	OrderID INT NOT NULL,
+	Quantity DECIMAL(10,2),
+	CONSTRAINT PK_OrderToProduct PRIMARY KEY (SubCategoryID, OrderID),
+	CONSTRAINT FK_OrderToProduct FOREIGN KEY (SubCategoryID) REFERENCES SubCategory(SubCategoryID),
+	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES Order(OrderID)
+);
 
 
 
@@ -321,6 +359,14 @@ ADD CONSTRAINT CHK_Valid_Email
 CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
 
 ALTER TABLE Employee
+ADD CONSTRAINT CHK_Valid_Phone
+CHECK(Phone NOT LIKE '%[^0-9]%');
+
+ALTER TABLE Supplier
+ADD CONSTRAINT CHK_Valid_Email
+CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
+
+ALTER TABLE Supplier
 ADD CONSTRAINT CHK_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
