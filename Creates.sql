@@ -1529,7 +1529,7 @@ BEGIN
 END
 GO
 
-CREATE FUNCTION udfGetOrderForStore(@StoreName VARCHAR(100))
+CREATE FUNCTION udfGetOrdersForStore(@StoreName VARCHAR(100))
 RETURNS TABLE
 AS
 	RETURN (SELECT orders.OrderID 
@@ -1568,4 +1568,10 @@ CREATE FUNCTION udfGetOrdersCreatedByAnEmployee(@EmployeeID INT)
 RETURNS TABLE
 AS
 	RETURN (SELECT * FROM StoreOrder WHERE EmployeeID = @EmployeeID);
+GO
+
+CREATE FUNCTION udfGetOrdersByStatus(@OrderStatus VARCHAR(20))
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM StoreOrder WHERE OrderStatus = @OrderStatus);
 GO
