@@ -613,3 +613,23 @@ EXEC uspInsertMarkup 75.0
 EXEC uspInsertDeal 'Standard', NULL, NULL, 'Standard no deal', 1
 EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 5
 EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 3
+
+EXEC uspInsertSupplier 'Supplier One' 'supplier1@gmail.com', '0825546658', 12
+EXEC uspInsertSupplier 'Supplier Two' 'supplier2@gmail.com', '0115426897', 50
+EXEC uspInsertSupplier 'Supplier Three' 'supplier3@gmail.com', '0115589745', 2
+EXEC uspInsertSupplier 'Supplier Four' 'supplier4@gmail.com', '0325548956', 16
+EXEC uspInsertSupplier 'Supplier Five' 'supplier5@gmail.com', '0114572323', 30
+
+EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
+EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 3, 3, '2020-04-26', 3, 'Order Received', NULL
+EXEC uspInsertStoreOrder 4, 4, '2020-04-27', 4, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 1, 5, '2020-04-28', 5, 'Order On Route', NULL
+EXEC uspInsertStoreOrder 2, 6, '2020-04-28', 6, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 3, 7, '2020-04-28', 7, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 4, 8, '2020-04-28', 8, 'Order Received', NULL
+
+EXEC uspInsertOrderProduct 1, 1, 20
+EXEC uspInsertOrderProduct 2, 2, 400
+EXEC uspInsertOrderProduct 3, 3, 700
+EXEC uspInsertOrderProduct 4, 4, 5

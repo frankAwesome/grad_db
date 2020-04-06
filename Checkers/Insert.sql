@@ -449,7 +449,7 @@ EXEC uspInsertStoreType 'Liquer Store'
 EXEC uspInsertStoreType 'Hyper Store'
 
 EXEC uspInsertStore 'Checkers Rock Cottage', 1, 1, 1
-EXEC uspInsertStore 'Checkers FX Fairlands', 1, 1, 2
+EXEC uspInsertStore 'Checkers FX Fairlands', 1, 1, 51
 EXEC uspInsertStore 'Checkers Allens Nek', 1, 1, 3
 EXEC uspInsertStore 'Checkers Northgate', 1, 1, 4
 EXEC uspInsertStore 'Checkers Cresta', 1, 1, 5
@@ -459,11 +459,11 @@ EXEC uspInsertStore 'Checkers Northriding', 1, 1, 8
 EXEC uspInsertStore 'Checkers Bram Fischer', 1, 1, 9
 EXEC uspInsertStore 'Checkers Hyper Westgate', 3, 1, 10
 EXEC uspInsertStore 'Checkers Hyper FX Sandton', 3, 1, 11
-EXEC uspInsertStore 'Checkers Rivonia Village', 1, 1, 12
+EXEC uspInsertStore 'Checkers Rivonia Village', 1, 1, 52
 EXEC uspInsertStore 'Checkers The Reef', 1, 1, 13
 EXEC uspInsertStore 'Checkers Emmarentia', 1, 1, 14
 EXEC uspInsertStore 'Checkers Bryanston', 1, 1, 15
-EXEC uspInsertStore 'Checkers Nicolway', 1, 1, 16
+EXEC uspInsertStore 'Checkers Nicolway', 1, 1, 53
 EXEC uspInsertStore 'Checkers Southgate', 1, 1, 17
 EXEC uspInsertStore 'Checkers Bryan Park', 1, 1, 18
 EXEC uspInsertStore 'Checkers Hyper Eastgate', 3, 1, 19
@@ -477,7 +477,7 @@ EXEC uspInsertStore 'Checkers FX Mimosa Mall', 1, 1, 26
 EXEC uspInsertStore 'Checkers Hyper Bloemfontein', 3, 1, 27
 EXEC uspInsertStore 'Checkers Woodlands', 1, 1, 28
 EXEC uspInsertStore 'Checkers Langenhovenpark', 1, 1, 29
-EXEC uspInsertStore 'Checkers FX Preller Square', 1, 1, 30
+EXEC uspInsertStore 'Checkers FX Preller Square', 1, 1, 54
 EXEC uspInsertStore 'Checkers LiquorShop Woodlands', 2, 1, 31
 EXEC uspInsertStore 'Checkers LiquorShop Langenhovenpark', 2, 1, 32
 EXEC uspInsertStore 'Checkers Hyper Shallcross', 3, 1, 33
@@ -497,7 +497,7 @@ EXEC uspInsertStore 'Checkers Hillcrest', 1, 1, 46
 EXEC uspInsertStore 'Checkers Watercrest', 1, 1, 47
 EXEC uspInsertStore 'Checkers Reservoir Hills', 1, 1, 48
 EXEC uspInsertStore 'Checkers Southway Mall', 1, 1, 49
-EXEC uspInsertStore 'Checkers Queensburgh', 1, 1, 50
+EXEC uspInsertStore 'Checkers Queensburgh', 1, 1, 55
 
 EXEC uspInsertOperationalCostType 'Water', 'Water for the store.'
 EXEC uspInsertOperationalCostType 'Electricity', 'Electricity for the store'
@@ -554,7 +554,7 @@ EXEC uspInsertEmployee 1269661409594,'Adena','Newman',134,'adenahewman@gmail.com
 EXEC uspInsertEmployee 1243644644646,'Vera','Cross',32,'veraC@gmail.com','0270142733',2,35
 EXEC uspInsertEmployee 850699459528,'Gareth','Conley',80,'conley@gmail.com','0268181000',10,35
 EXEC uspInsertEmployee 1630753803719,'Nicole','Brown',150,'nikkieBrown@gmail.com','0110530853',2,43
-EXEC uspInsertEmployee 1127221500129,'Ross','Kelly',30,'rossk@mail.co.za','0154465472',3,30
+EXEC uspInsertEmployee 1127221500129,'Ross','Kelly',31,'rossk@mail.co.za','0154465472',3,30
 EXEC uspInsertEmployee 876692497963,'Renee','Pacheco',26,'reneePacheco@mail.org','0494697639',9,33
 EXEC uspInsertEmployee 271445601107,'Honorato','Nash',32,'nashH@gmail.com','0442882980',4,18
 EXEC uspInsertEmployee 1982614249178,'Deirdre','Downs',52,'deirdre@mail.co.za','0856001392',5,24
@@ -623,3 +623,23 @@ EXEC uspInsertMarkup 75.0
 EXEC uspInsertDeal 'Standard', NULL, NULL, 'Standard no deal', 1
 EXEC uspInsertDeal 'January Sale', '2020-01-12', '2020-01-30', 'January sale, 50% off', 5
 EXEC uspInsertDeal 'Summer Sale', '2020-03-01', '2020-04-01', 'Summer sale, 20% off', 3
+
+EXEC uspInsertSupplier 'Supplier One' 'supplier1@gmail.com', '0825546658', 12
+EXEC uspInsertSupplier 'Supplier Two' 'supplier2@gmail.com', '0115426897', 50
+EXEC uspInsertSupplier 'Supplier Three' 'supplier3@gmail.com', '0115589745', 2
+EXEC uspInsertSupplier 'Supplier Four' 'supplier4@gmail.com', '0325548956', 16
+EXEC uspInsertSupplier 'Supplier Five' 'supplier5@gmail.com', '0114572323', 30
+
+EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
+EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 3, 3, '2020-04-26', 3, 'Order Received', NULL
+EXEC uspInsertStoreOrder 4, 4, '2020-04-27', 4, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 1, 5, '2020-04-28', 5, 'Order On Route', NULL
+EXEC uspInsertStoreOrder 2, 6, '2020-04-28', 6, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 3, 7, '2020-04-28', 7, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 4, 8, '2020-04-28', 8, 'Order Received', NULL
+
+EXEC uspInsertOrderProduct 1, 1, 20
+EXEC uspInsertOrderProduct 2, 2, 400
+EXEC uspInsertOrderProduct 3, 3, 700
+EXEC uspInsertOrderProduct 4, 4, 5

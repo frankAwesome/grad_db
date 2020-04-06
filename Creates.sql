@@ -329,22 +329,13 @@ CREATE TABLE StoreOrder
 	DateReceived DATE
 );
 
-CREATE TABLE SupplierOrder
-(
-	SupplierID INT NOT NULL,
-	OrderID INT NOT NULL,
-	CONSTRAINT PK_SupplierToOrder PRIMARY KEY (SupplierID, OrderID),
-	CONSTRAINT FK_SupplierToOrder FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
-	CONSTRAINT FK_OrderToSupplier FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
-);
-
 CREATE TABLE OrderProduct
 (
-	SubCategoryID INT NOT NULL,
+	BaseProductID INT NOT NULL,
 	OrderID INT NOT NULL,
-	Quantity DECIMAL(10,2),
-	CONSTRAINT PK_OrderToProduct PRIMARY KEY (SubCategoryID, OrderID),
-	CONSTRAINT FK_OrderToProduct FOREIGN KEY (SubCategoryID) REFERENCES SubCategory(SubCategoryID),
+	Quantity BIGINT,
+	CONSTRAINT PK_OrderToProduct PRIMARY KEY (BaseProductID, OrderID),
+	CONSTRAINT FK_OrderToProduct FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID),
 	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
 );
 
@@ -799,8 +790,8 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreOrder' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertStoreOrder
-		@SupplierID INT,
 		@StoreID INT,
+		@SupplierID INT,
 		@OrderDate DATE,
 		@EmployeeID INT,
 		@OrderStatus VARCHAR(20),
@@ -809,25 +800,7 @@ EXEC('CREATE PROCEDURE uspInsertStoreOrder
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO StoreOrder VALUES(@SupplierID, @StoreID, @OrderDate, @EmployeeID, @OrderStatus, @DateReceived);
-		COMMIT TRANSACTION;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK;
-		INSERT INTO Errors
-			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
-	END CATCH')
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSupplierOrder' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspInsertSupplierOrder
-		@SupplierID INT,
-		@OrderID INT
-	AS
-	BEGIN TRY
-		SET NOCOUNT ON;
-		BEGIN TRANSACTION
-			INSERT INTO SupplierOrder VALUES(@SupplierID, @OrderID);
+			INSERT INTO StoreOrder VALUES(@StoreID, @SupplierID, @OrderDate, @EmployeeID, @OrderStatus, @DateReceived);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -839,14 +812,14 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertOrderProduct' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertOrderProduct
-		@SubCategoryID INT,
+		@BaseProductID INT,
 		@OrderID INT,
-		@Quantity DECIMAL(10,2)
+		@Quantity BIGINT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO OrderProduct VALUES(@SubCategoryID, @OrderID, @Quantity);
+			INSERT INTO OrderProduct VALUES(@BaseProductID, @OrderID, @Quantity);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1410,25 +1383,6 @@ EXEC('CREATE PROCEDURE uspDeleteOrderProduct
 	END CATCH')
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSupplierOrder' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspDeleteSupplierOrder
-		@OrderID INT,
-		@SupplierID INT
-	AS
-	BEGIN TRY
-		SET NOCOUNT ON;
-		BEGIN TRANSACTION
-			DELETE FROM SupplierOrder
-			WHERE OrderID = @OrderID AND SupplierID = @SupplierID
-		COMMIT TRANSACTION;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK;
-		INSERT INTO Errors
-    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
-	END CATCH')
-GO
-
 
 
 
@@ -1558,9 +1512,9 @@ GO
 CREATE FUNCTION udfGetProductsOfAnOrder(@OrderID INT)
 RETURNS TABLE
 AS
-	RETURN (SELECT subCategory.SubCategoryName, orderProduct.Quantity
+	RETURN (SELECT baseProduct.BaseProductID, orderProduct.Quantity
 			FROM OrderProduct as orderProduct
-			JOIN SubCategory AS subCategory ON orderProduct.SubCategoryID = subCategory.SubCategoryID
+			JOIN BaseProduct AS baseProduct ON orderProduct.BaseProductID = baseProduct.BaseProductID
 			WHERE orderProduct.OrderID = @OrderID);
 GO
 
