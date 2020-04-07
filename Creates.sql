@@ -166,7 +166,7 @@ CREATE TABLE SubCategory
 (
 	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	SubCategoryName VARCHAR(50) NOT NULL,
-	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID) NOT NULL
+	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(CategoryID) NOT NULL
 );
 
 CREATE TABLE BaseProduct
@@ -837,7 +837,7 @@ EXEC('CREATE PROCEDURE uspInsertSubCategory
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO SubCategory VALUES(@SubCategoryName,@MainCategoryID);
+			INSERT INTO SubCategory VALUES(@SubCategoryName, @MainCategoryID);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -873,7 +873,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertStoreBaseProduct' 
 EXEC('CREATE PROCEDURE uspInsertStoreBaseProduct
 		@StoreID INT,
 		@BaseProductID INT,
-		@Quantity
+		@Quantity INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
