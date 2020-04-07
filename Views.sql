@@ -18,7 +18,7 @@ Phone
 FROM Employee;
 GO
 
-SELECT * FROM vAllStaff;
+SELECT *, dbo.udfGetEmployeeDOB('9803180097082') FROM vAllStaff;
 
 CREATE VIEW vStore
 AS
