@@ -645,3 +645,11 @@ EXEC uspInsertBaseProduct 2, 'Supra', '2020 Toyota Supra 3.0 Premium', 'C:Docume
 
 EXEC uspInsertStoreBaseProduct 1, 2, 100
 EXEC uspInsertStoreBaseProduct 2, 1, 23
+
+EXEC uspInsertProductValue 1, 1, '3000Kg'
+EXEC uspInsertProductValue 2, 1, '2500Kg'
+EXEC uspInsertProductValue 1, 2, 'White'
+EXEC uspInsertProductValue 2, 2, 'Red'
+
+EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
+EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
