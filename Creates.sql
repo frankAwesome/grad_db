@@ -155,7 +155,7 @@ CREATE TABLE ProductTax
 
 CREATE TABLE MainCategory
 (
-	CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+	MainCategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	CategoryName VARCHAR(50) NOT NULL,
 );
 
@@ -163,7 +163,7 @@ CREATE TABLE SubCategory
 (
 	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	SubCategoryName VARCHAR(50) NOT NULL,
-	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(CategoryID) NOT NULL
+	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID) NOT NULL
 );
 
 CREATE TABLE BaseProduct
@@ -1634,8 +1634,189 @@ EXEC('CREATE PROCEDURE uspUpdateStockTakeProduct
 	END CATCH')
 GO 
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreBaseProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateStoreBaseProduct
+		@StoreID INT,
+		@BaseProductID INT,
+		@Quantity INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE StoreBaseProduct
+			SET Quantity = @Quantity
+			WHERE StoreID = @StoreID
+			AND BaseProductID = @BaseProductID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateBaseProductDescription' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateBaseProductDescription
+		@BaseProductName VARCHAR(50),
+		@BaseProductDescription VARCHAR(100)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE BaseProduct
+			SET BaseProductDescription = @BaseProductDescription
+			WHERE BaseProductName = @BaseProductName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateBaseProductPicture' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateBaseProductPicture
+		@BaseProductName VARCHAR(50),
+		@BaseProductPicture VARCHAR(100)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE BaseProduct
+			SET BaseProductPicture = @BaseProductPicture
+			WHERE BaseProductName = @BaseProductName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSubCategoriesMain' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateSubCategoriesMain
+		@SubCategoryName VARCHAR(50),
+		@MainCategoryID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE SubCategory
+			SET MainCategoryID = @MainCategoryID
+			WHERE SubCategoryName = @SubCategoryName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSubCategory' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateSubCategory
+		@SubCategoryID INT,
+		@SubCategoryName VARCHAR(50),
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE SubCategory
+			SET SubCategoryName = @SubCategoryName
+			WHERE SubCategoryID = @SubCategoryID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateMainCategory' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateMainCategory
+		@MainCategoryID INT,
+		@CategoryName VARCHAR(50),
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE MainCategory
+			SET CategoryName = @CategoryName
+			WHERE MainCategoryID = @MainCategoryID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateProductValue' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateProductValue
+		@BaseProductID INT,
+		@ProductAttributeID INT,
+		@ProductValValue VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE ProductValue
+			SET ProductValValue = @ProductValValue
+			WHERE BaseProductID = @BaseProductID
+			AND ProductAttributeID = @ProductAttributeID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateProductAttributeName' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateProductAttributeName
+		@ProductAttributeID INT,
+		@ProductAttributeName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE ProductAttribute
+			SET ProductAttributeName = @ProductAttributeName
+			WHERE ProductAttributeID = @ProductAttributeID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateProductAttributeDescription' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateProductAttributeDescription
+		@ProductAttributeName VARCHAR(50),
+		@ProductAttributeDescription VARCHAR(100)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE ProductAttribute
+			SET ProductAttributeDescription = @ProductAttributeDescription
+			WHERE ProductAttributeName = @ProductAttributeName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+			VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO 
 
 /*******************************************************************************************************************************************
 *														CREATE DELETE STORED PROCEDURES	 												   *
