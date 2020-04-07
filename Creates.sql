@@ -1975,9 +1975,117 @@ EXEC('CREATE PROCEDURE uspDeleteStockTakeProduct
 	END CATCH')
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteBaseProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteBaseProduct
+		@BaseProductID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM BaseProduct
+			WHERE BaseProductID = @BaseProductID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSubCategory' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteSubCategory
+		@SubCategoryName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM SubCategory
+			WHERE SubCategoryName = @SubCategoryName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteMainCategory' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteMainCategory
+		@CategoryName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM MainCategory
+			WHERE CategoryName = @CategoryName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteStoreBaseProduct' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteStoreBaseProduct
+		@StoreID INT,
+		@BaseProductID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM StoreBaseProduct
+			WHERE StoreID = @StoreID
+			AND BaseProductID = @BaseProductID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteProductValue' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteProductValue
+		@BaseProductID INT
+		@ProductAttributeID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM ProductValue
+			WHERE BaseProductID = @BaseProductID
+			AND ProductAttributeID = @ProductAttributeID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteProductAttribute' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteProductAttribute
+		@AttributeName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM ProductAttribute
+			WHERE AttributeName = @AttributeName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
 
 /*******************************************************************************************************************************************
 *														CREATE USER DEFINED FUNCTIONS	 												   *

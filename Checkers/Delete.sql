@@ -11,3 +11,5 @@ EXEC uspDeleteStore 'Checkers Northgate';
 EXEC uspDeleteEmployee 1982614249178;
 
 EXEC uspDeleteDeal 'Summer Sale';
+
+EXEC uspDeleteBaseProduct 2;
