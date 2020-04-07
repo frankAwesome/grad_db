@@ -18,7 +18,7 @@ EXEC uspInsertCity 'Butterworth', 1
 EXEC uspInsertCity 'East London', 1
 EXEC uspInsertCity 'Graaff-Reinet', 1
 EXEC uspInsertCity 'Grahamstown', 1
-EXEC uspInsertCity 'King William’s Town', 2
+EXEC uspInsertCity 'King Williamï¿½s Town', 2
 EXEC uspInsertCity 'Mthatha', 2
 EXEC uspInsertCity 'Port Elizabeth', 2
 EXEC uspInsertCity 'Queenstown', 2
@@ -82,7 +82,7 @@ EXEC uspInsertCity 'George',3
 EXEC uspInsertCity 'Hopefield',4
 EXEC uspInsertCity 'Oudtshoorn',5
 EXEC uspInsertCity 'Paarl',6
-EXEC uspInsertCity 'Simon’s Town',7
+EXEC uspInsertCity 'Simonï¿½s Town',7
 EXEC uspInsertCity 'Stellenbosch',8
 EXEC uspInsertCity 'Swellendam',9
 
@@ -633,3 +633,15 @@ EXEC uspInsertOrderProduct 1, 1, 20
 EXEC uspInsertOrderProduct 2, 2, 400
 EXEC uspInsertOrderProduct 3, 3, 700
 EXEC uspInsertOrderProduct 4, 4, 5
+
+EXEC uspInsertMainCategory 'Offroad'
+EXEC uspInsertMainCategory 'Road'
+
+EXEC uspInsertSubCategory 'SUV', 1
+EXEC uspInsertSubCategory 'Sportster', 2
+
+EXEC uspInsertBaseProduct 1, 'Dakar', 'Double Cab Dakar Rally Bakkie', 'C:Documents/Pictures/Bakkies/Dakar.jpg'
+EXEC uspInsertBaseProduct 2, 'Supra', '2020 Toyota Supra 3.0 Premium', 'C:Documents/Pictures/Sportster/Supra.jpg'
+
+EXEC uspInsertStoreBaseProduct 1, 2, 100
+EXEC uspInsertStoreBaseProduct 2, 1, 23

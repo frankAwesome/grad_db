@@ -18,7 +18,7 @@ EXEC uspInsertCity 'Butterworth', 1
 EXEC uspInsertCity 'East London', 1
 EXEC uspInsertCity 'Graaff-Reinet', 1
 EXEC uspInsertCity 'Grahamstown', 1
-EXEC uspInsertCity 'King William’s Town', 2
+EXEC uspInsertCity 'King Williamï¿½s Town', 2
 EXEC uspInsertCity 'Mthatha', 2
 EXEC uspInsertCity 'Port Elizabeth', 2
 EXEC uspInsertCity 'Queenstown', 2
@@ -82,7 +82,7 @@ EXEC uspInsertCity 'George',3
 EXEC uspInsertCity 'Hopefield',4
 EXEC uspInsertCity 'Oudtshoorn',5
 EXEC uspInsertCity 'Paarl',6
-EXEC uspInsertCity 'Simon’s Town',7
+EXEC uspInsertCity 'Simonï¿½s Town',7
 EXEC uspInsertCity 'Stellenbosch',8
 EXEC uspInsertCity 'Swellendam',9
 
@@ -643,3 +643,139 @@ EXEC uspInsertOrderProduct 1, 1, 20
 EXEC uspInsertOrderProduct 2, 2, 400
 EXEC uspInsertOrderProduct 3, 3, 700
 EXEC uspInsertOrderProduct 4, 4, 5
+
+EXEC uspInsertMainCategory 'Appliances'
+EXEC uspInsertMainCategory 'Baby, Toddlers, & Kids'
+EXEC uspInsertMainCategory 'Beverages & Liquor'
+EXEC uspInsertMainCategory 'Books'
+EXEC uspInsertMainCategory 'Catering'
+EXEC uspInsertMainCategory 'Electronnics & Computers'
+EXEC uspInsertMainCategory 'Food'
+EXEC uspInsertMainCategory 'Games & Gaming'
+EXEC uspInsertMainCategory 'Hardware & Auto'
+EXEC uspInsertMainCategory 'Health & Beauty'
+EXEC uspInsertMainCategory 'Home & Garden'
+EXEC uspInsertMainCategory 'Household & Pet Supplies'
+EXEC uspInsertMainCategory 'Sports, Outdoor & Travel'
+EXEC uspInsertMainCategory 'Stationary & Office Furniture'
+
+EXEC uspInsertSubCategory 'Fans, Heaters & Air Coolers', 1
+EXEC uspInsertSubCategory 'Small Appliances', 1
+EXEC uspInsertSubCategory 'Washers & Tumble Dryers', 1
+EXEC uspInsertSubCategory 'Fridges & Freezers', 1
+EXEC uspInsertSubCategory 'Stoves & Ovens', 1
+EXEC uspInsertSubCategory 'Water Purification & Soda Machines', 1
+EXEC uspInsertSubCategory 'Vacuum Cleaners & Floor Care', 1
+EXEC uspInsertSubCategory 'Baby', 2
+EXEC uspInsertSubCategory 'Baby & Toddler Food', 2
+EXEC uspInsertSubCategory 'Learning & Development', 2
+EXEC uspInsertSubCategory 'Bags', 2
+EXEC uspInsertSubCategory 'Toys', 2
+EXEC uspInsertSubCategory 'Coffee, Teas & Hot Drinks', 3
+EXEC uspInsertSubCategory 'Spirits', 3
+EXEC uspInsertSubCategory 'Beer & Cider', 3
+EXEC uspInsertSubCategory 'Milk & Milk Alternatives', 3
+EXEC uspInsertSubCategory 'Wines', 3
+EXEC uspInsertSubCategory 'Pre mixes', 3
+EXEC uspInsertSubCategory 'Soft Drinks & Juices', 3
+EXEC uspInsertSubCategory 'Bar Accessories', 3
+EXEC uspInsertSubCategory 'Children & Young Adult', 4
+EXEC uspInsertSubCategory 'Non-Fiction', 4
+EXEC uspInsertSubCategory 'Non-Fiction Specialist', 4
+EXEC uspInsertSubCategory 'Educational', 4
+EXEC uspInsertSubCategory 'General Fiction', 4
+EXEC uspInsertSubCategory 'Cookware', 5
+EXEC uspInsertSubCategory 'Electrical Equipment', 5
+EXEC uspInsertSubCategory 'Plasticware', 5
+EXEC uspInsertSubCategory 'Consumables & Cleaning', 5
+EXEC uspInsertSubCategory 'Glassware & Crockery', 5
+EXEC uspInsertSubCategory 'Utensils', 5
+EXEC uspInsertSubCategory 'Commercial Cater Wear', 5
+EXEC uspInsertSubCategory 'Audio & Video', 6
+EXEC uspInsertSubCategory 'Computers & Tablets', 6
+EXEC uspInsertSubCategory 'Printers & Scanners', 6
+EXEC uspInsertSubCategory 'Cameras', 6
+EXEC uspInsertSubCategory 'Fitness Trackers & Wearables', 6
+EXEC uspInsertSubCategory 'Televisions', 6
+EXEC uspInsertSubCategory 'Fitness Trackers & Wearables', 6
+EXEC uspInsertSubCategory 'GPS & Navigation', 6
+EXEC uspInsertSubCategory 'Cellphones', 6
+EXEC uspInsertSubCategory 'Movies, Music & Entertainment', 6
+EXEC uspInsertSubCategory 'Wifi & Networking', 6
+EXEC uspInsertSubCategory 'Watches', 6
+EXEC uspInsertSubCategory 'Cereals & Porridges', 7
+EXEC uspInsertSubCategory 'Baking', 7
+EXEC uspInsertSubCategory 'Cooking', 7
+EXEC uspInsertSubCategory 'Snacks, Biscuits & Sweets', 7
+EXEC uspInsertSubCategory 'Desserts', 7
+EXEC uspInsertSubCategory 'Sauces, Spreads & Condiments', 7
+EXEC uspInsertSubCategory 'Games', 8
+EXEC uspInsertSubCategory 'Interactive Toys', 8
+EXEC uspInsertSubCategory 'Video Games', 8
+EXEC uspInsertSubCategory 'Auto', 9
+EXEC uspInsertSubCategory 'Fittings & Shelving', 9
+EXEC uspInsertSubCategory 'Powertool Accessories', 9
+EXEC uspInsertSubCategory 'DIY Powertools', 9
+EXEC uspInsertSubCategory 'Glue, Nails & Fasteners', 9
+EXEC uspInsertSubCategory 'Security', 9
+EXEC uspInsertSubCategory 'Industrial Powertools', 9
+EXEC uspInsertSubCategory 'Electrical', 9
+EXEC uspInsertSubCategory 'Lighting', 9
+EXEC uspInsertSubCategory 'Trolleys & Ladders', 9
+EXEC uspInsertSubCategory 'Hand Tools', 9
+EXEC uspInsertSubCategory 'Paint & Surface', 9
+EXEC uspInsertSubCategory 'Workshop Machinery', 9
+EXEC uspInsertSubCategory 'Antiperspirants & Deodorants', 10
+EXEC uspInsertSubCategory 'Feminine Care', 10
+EXEC uspInsertSubCategory 'Oral Care', 10
+EXEC uspInsertSubCategory 'Bath & Shower', 10
+EXEC uspInsertSubCategory 'Hair Care', 10
+EXEC uspInsertSubCategory 'Self Care', 10
+EXEC uspInsertSubCategory 'Shaving & Grooming', 10
+EXEC uspInsertSubCategory 'Body Care', 10
+EXEC uspInsertSubCategory 'Healthcare', 10
+EXEC uspInsertSubCategory 'Shoe Care', 10
+EXEC uspInsertSubCategory 'Cosmetics', 10
+EXEC uspInsertSubCategory 'Healthcare', 10
+EXEC uspInsertSubCategory 'Skin Care', 10
+EXEC uspInsertSubCategory 'Bathroom', 11
+EXEC uspInsertSubCategory 'Kitchen', 11
+EXEC uspInsertSubCategory 'Lawn & Garden', 11
+EXEC uspInsertSubCategory 'Bedroom', 11
+EXEC uspInsertSubCategory 'Laundry', 11
+EXEC uspInsertSubCategory 'Lighting', 11
+EXEC uspInsertSubCategory 'Bins', 11
+EXEC uspInsertSubCategory 'Home DÃ©cor', 11
+EXEC uspInsertSubCategory 'Patio', 11
+EXEC uspInsertSubCategory 'Bathroom Supplies', 12
+EXEC uspInsertSubCategory 'Insecticides & Pest Control', 12
+EXEC uspInsertSubCategory 'Pet Supplies', 12
+EXEC uspInsertSubCategory 'Household Supplies', 12
+EXEC uspInsertSubCategory 'Kitchen Supplies', 12
+EXEC uspInsertSubCategory 'Braai', 13
+EXEC uspInsertSubCategory 'Exercise & Fitness', 13
+EXEC uspInsertSubCategory 'Pool', 13
+EXEC uspInsertSubCategory 'Camping', 13
+EXEC uspInsertSubCategory 'Fun Outdoor Activities', 13
+EXEC uspInsertSubCategory 'Sports', 13
+EXEC uspInsertSubCategory 'Luggage & Bags', 13
+EXEC uspInsertSubCategory 'Event & Party Supplies', 14
+EXEC uspInsertSubCategory 'Office Electronics', 14
+EXEC uspInsertSubCategory 'Office Furniture', 14
+EXEC uspInsertSubCategory 'Stationery Storage', 14
+EXEC uspInsertSubCategory 'Stationery', 14
+EXEC uspInsertSubCategory 'Paper & Filing', 14
+
+EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'Wattage: 70, Speed Sett: 3-speed settings', 'C:Documents/Pictures/GoldairAirCooler.jpg'
+EXEC uspInsertBaseProduct 1, 'Venta Hygrometer', 'Digital thermo-hygrometer with display indicating the temperature and relative humidity', 'C:Documents/Pictures/VentaHygrometer.jpg'
+EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', '(36 x 50g)', 'C:Documents/Pictures/SimbaPeanuts.jpg'
+EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', '(1 x 500ml)', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg'
+EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Product Weight: 0.005kg, Product Dimensions: 110mm(L) x 100mm(W) x 5mm(H)', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg'
+EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software - Age Rating: 18', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg'
+
+EXEC uspInsertStoreBaseProduct 1, 1, 90
+EXEC uspInsertStoreBaseProduct 2, 1, 88
+EXEC uspInsertStoreBaseProduct 1, 2, 2
+EXEC uspInsertStoreBaseProduct 2, 2, 150
+EXEC uspInsertStoreBaseProduct 1, 4, 23
+EXEC uspInsertStoreBaseProduct 1, 3, 22
