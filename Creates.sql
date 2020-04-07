@@ -346,8 +346,19 @@ ALTER TABLE Supplier
 ADD CONSTRAINT CHK_Supplier_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
+/*******************************************************************************************************************************************
+*													 CREATE INDEXES	 														   							*
+********************************************************************************************************************************************/
 
+CREATE NONCLUSTERED INDEX idxBaseProductName
+ON dbo.BaseProduct (BaseProductName)
+INCLUDE (BaseProductPicture, BaseProductDescription);
+GO
 
+CREATE NONCLUSTERED INDEX idxDealName
+ON dbo.Deal (DealName)
+INCLUDE (Description);
+GO
 
 /*******************************************************************************************************************************************
 *													 CREATE SELECT STORED PROCEDURES 				 								       *
