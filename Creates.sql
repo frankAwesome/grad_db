@@ -8,9 +8,6 @@ GO
 USE GenericCompanyDB;
 GO
 
-
-
-
 /*******************************************************************************************************************************************
 *															CREATE TABLES	 															   *
 ********************************************************************************************************************************************/
@@ -324,8 +321,6 @@ CREATE TABLE OrderProduct
 	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
 );
 
-
-
 /*******************************************************************************************************************************************
 *													 CREATE TABLES CONSTRAINTS	 														   *
 ********************************************************************************************************************************************/
@@ -439,8 +434,7 @@ EXEC('CREATE PROCEDURE uspSelectSaleProduct
 	END')
 GO
 
-
-
+-- See full product - All BaseProductInfo + Price + SubCategory + MainCategory + ProductValues
 
 /*******************************************************************************************************************************************
 *														CREATE INSERT STORED PROCEDURES	 												   *
@@ -890,6 +884,44 @@ EXEC('CREATE PROCEDURE uspInsertStoreBaseProduct
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO StoreBaseProduct VALUES(@StoreID,@BaseProductID,@Quantity);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertProductValue' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertProductValue
+		@BaseProductID INT,
+		@ProductAttributeID INT,
+		@ProductValValue VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO ProductValue VALUES(@BaseProductID,@ProductAttributeID,@ProductValValue);
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertProductAttribute' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertProductAttribute
+		@AttributeName VARCHAR(50),
+		@Description VARCHAR(100),
+		@Type VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			INSERT INTO ProductValue VALUES(@AttributeName,@Description,@Type);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH

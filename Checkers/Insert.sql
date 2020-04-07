@@ -766,12 +766,12 @@ EXEC uspInsertSubCategory 'Stationery Storage', 14
 EXEC uspInsertSubCategory 'Stationery', 14
 EXEC uspInsertSubCategory 'Paper & Filing', 14
 
-EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'Wattage: 70, Speed Sett: 3-speed settings', 'C:Documents/Pictures/GoldairAirCooler.jpg'
+EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'This is a very cool Air Cooler ;) Buy it!', 'C:Documents/Pictures/GoldairAirCooler.jpg'
 EXEC uspInsertBaseProduct 1, 'Venta Hygrometer', 'Digital thermo-hygrometer with display indicating the temperature and relative humidity', 'C:Documents/Pictures/VentaHygrometer.jpg'
-EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', '(36 x 50g)', 'C:Documents/Pictures/SimbaPeanuts.jpg'
-EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', '(1 x 500ml)', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg'
-EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Product Weight: 0.005kg, Product Dimensions: 110mm(L) x 100mm(W) x 5mm(H)', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg'
-EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software - Age Rating: 18', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg'
+EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', 'Nice packets of Simba Peanuts & Raisins Baler', 'C:Documents/Pictures/SimbaPeanuts.jpg'
+EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', 'Creamy and delicious Nestle Dessert Topping right when you need it.', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg'
+EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Best game you can buy to keep you busy for hours', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg'
+EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg'
 
 EXEC uspInsertStoreBaseProduct 1, 1, 90
 EXEC uspInsertStoreBaseProduct 2, 1, 88
@@ -779,3 +779,16 @@ EXEC uspInsertStoreBaseProduct 1, 2, 2
 EXEC uspInsertStoreBaseProduct 2, 2, 150
 EXEC uspInsertStoreBaseProduct 1, 4, 23
 EXEC uspInsertStoreBaseProduct 1, 3, 22
+
+EXEC uspInsertProductValue 5, 1, '0.005'
+EXEC uspInsertProductValue 6, 2, '18'
+EXEC uspInsertProductValue 1, 3, 'White'
+EXEC uspInsertProductValue 3, 4, '(36 x 50g)'
+EXEC uspInsertProductValue 4, 4, '(1 x 500ml)'
+EXEC uspInsertProductValue 5, 5, '110mm(L) x 100mm(W) x 5mm(H)'
+
+EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
+EXEC uspInsertProductAttribute 'Age Rating', 'Minimum age to recommended to play game', 'Restrictions'
+EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
+EXEC uspInsertProductAttribute 'Package Amount', 'Overall amount of packages in container', 'Quantity'
+EXEC uspInsertProductAttribute 'Outer Dimensions', 'Dimensions of package [L x W x H]', 'Dimensions'

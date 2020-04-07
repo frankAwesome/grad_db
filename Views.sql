@@ -4,6 +4,8 @@ USE GenericCompanyDB;
 GO
 /****** CREATE DATABASE END  ******/
 
+-- Create view that shows baseproduct with all attributes and values
+
 /****** Create Views  ******/
 
 CREATE VIEW vAllStaff
