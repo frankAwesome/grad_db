@@ -268,7 +268,7 @@ CREATE TABLE ProductAttribute
 	ProductAttributeID INT IDENTITY(1,1) PRIMARY KEY,
 	ProductAttributeName VARCHAR(50) UNIQUE NOT NULL,
 	ProductAttributeDecription VARCHAR(100) NOT NULL,
-	ProductAttributeType VARCHAR(50) NOT NULL,
+	ProductAttributeType VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE ProductValue
@@ -433,6 +433,10 @@ CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
 ALTER TABLE Employee
 ADD CONSTRAINT CHK_Employee_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
+
+ALTER TABLE Employee
+ADD CONSTRAINT CHK_Employee_Valid_IDNumber
+CHECK(LEN(CAST(IDNumber AS VARCHAR(20))) = 13);
 
 ALTER TABLE Supplier
 ADD CONSTRAINT CHK_Supplier_Valid_Email
