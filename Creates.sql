@@ -535,6 +535,27 @@ EXEC('CREATE PROCEDURE uspSelectSaleProduct
 	END')
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspSelectBaseProductByName' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspSelectBaseProductByName
+		@ProductName VARCHAR(50) = NULL
+	AS
+	BEGIN
+		SET NOCOUNT ON;
+		SELECT
+			p.BaseProductName,
+			p.BaseProductPicture,
+			p.BaseProductDescription,
+			a.ProductAttributeName,
+			pv.ProductValValue
+		FROM BaseProduct p
+		JOIN ProductValue pv ON p.BaseProductID = pv.BaseProductID
+		JOIN ProductAttribute a ON pv.ProductAttributeID = a.ProductAttributeID
+		WHERE
+			(@ProductName IS NULL OR (p.BaseProductName = @ProductName))
+		OPTION (RECOMPILE)
+	END')
+GO
+
 -- See full product - All BaseProductInfo + Price + SubCategory + MainCategory + ProductValues
 
 /*******************************************************************************************************************************************
