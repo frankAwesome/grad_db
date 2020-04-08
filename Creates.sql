@@ -209,18 +209,30 @@ CREATE TABLE SubCategory
 (
 	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	SubCategoryName VARCHAR(50) UNIQUE NOT NULL,
-	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID)
+	MainCategoryID INT FOREIGN KEY 
+		REFERENCES MainCategory(MainCategoryID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 );
 
 CREATE TABLE BaseProduct
 (
 	BaseProductID INT IDENTITY(1,1) PRIMARY KEY,
-	SubCategoryID INT FOREIGN KEY REFERENCES SubCategory(SubCategoryID),
+	SubCategoryID INT FOREIGN KEY 
+		REFERENCES SubCategory(SubCategoryID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION,
 	BaseProductName VARCHAR(50) UNIQUE NOT NULL,
 	BaseProductDescription VARCHAR(100) NOT NULL,
 	BaseProductPicture VARCHAR(50) NOT NULL,
-	DealID INT FOREIGN KEY REFERENCES Deal(DealID) NOT NULL,
-	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID) NOT NULL,
+	DealID INT FOREIGN KEY 
+		REFERENCES Deal(DealID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION NOT NULL,
+	ProductTaxID INT FOREIGN KEY 
+		REFERENCES ProductTax(ProductTaxID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION NOT NULL,
 	BaseProductCostPrice DECIMAL(10,2) NOT NULL
 );
 
@@ -230,8 +242,14 @@ CREATE TABLE StoreBaseProduct
 	BaseProductID INT NOT NULL,
 	Quantity INT NOT NULL,
 	CONSTRAINT PK_StoreToProduct PRIMARY KEY (StoreID,BaseProductID),
-	CONSTRAINT FK_StoreToProduct FOREIGN KEY(StoreID) REFERENCES Store(StoreID),
-	CONSTRAINT FK_ProductToStore FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID)
+	CONSTRAINT FK_StoreToProduct FOREIGN KEY(StoreID)
+		REFERENCES Store(StoreID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION,
+	CONSTRAINT FK_ProductToStore FOREIGN KEY (BaseProductID)
+		REFERENCES BaseProduct(BaseProductID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION
 );
 
 CREATE TABLE Sale
@@ -277,8 +295,14 @@ CREATE TABLE ProductValue
 	ProductAttributeID INT NOT NULL,
 	ProductValValue VARCHAR(50) NOT NULL,
 	CONSTRAINT PK_ProductToAttribute PRIMARY KEY (BaseProductID,ProductAttributeID),
-	CONSTRAINT FK_ProductToAttribute FOREIGN KEY(BaseProductID) REFERENCES BaseProduct(BaseProductID),
-	CONSTRAINT FK_AttributeToProduct FOREIGN KEY (ProductAttributeID) REFERENCES ProductAttribute(ProductAttributeID)
+	CONSTRAINT FK_ProductToAttribute FOREIGN KEY(BaseProductID) 
+		REFERENCES BaseProduct(BaseProductID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION,
+	CONSTRAINT FK_AttributeToProduct FOREIGN KEY (ProductAttributeID)
+		REFERENCES ProductAttribute(ProductAttributeID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION
 );
 
 CREATE TABLE ReturnReason
