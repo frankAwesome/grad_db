@@ -221,7 +221,7 @@ CREATE TABLE BaseProduct
 	BaseProductPicture VARCHAR(50) NOT NULL,
 	DealID INT FOREIGN KEY REFERENCES Deal(DealID) NOT NULL,
 	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID),
-	ProductBaseCostPrice DECIMAL(10,2) NOT NULL
+	BaseProductCostPrice DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE StoreBaseProduct
@@ -961,12 +961,12 @@ EXEC('CREATE PROCEDURE uspInsertBaseProduct
 		@BaseProductPicture VARCHAR(50),
 		@DealID INT,
 		@ProductTaxID INT,
-		@ProductBaseCostPrice DECIMAL(10,2)
+		@BaseProductCostPrice DECIMAL(10,2)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO BaseProduct VALUES(@SubCategoryID,@BaseProductName,@BaseProductDescription,@BaseProductPicture,@DealID,@ProductTaxID,@ProductBaseCostPrice);
+			INSERT INTO BaseProduct VALUES(@SubCategoryID,@BaseProductName,@BaseProductDescription,@BaseProductPicture,@DealID,@ProductTaxID,@BaseProductCostPrice);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
