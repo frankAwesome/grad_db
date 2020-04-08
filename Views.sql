@@ -8,6 +8,18 @@ GO
 
 /****** Create Views  ******/
 
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name = 'vProduct' AND objectproperty(object_id,'IsView') = 1)
+EXEC ( 'CREATE VIEW vProduct
+AS
+	SELECT product.BaseProductName, product.BaseProductPicture, product.BaseProductDescription, value.ProductValValue, attribute.ProductAttributeName
+	FROM BaseProduct product
+	JOIN ProductValue value ON product.BaseProductID = value.BaseProductID
+	JOIN ProductAttribute attribute ON value.ProductAttributeID = attribute.ProductAttributeID
+	;')
+GO
+SELECT * FROM vProduct;
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vAllStaff' AND objectproperty(object_id,'IsView') = 1)
 EXEC( 'CREATE VIEW vAllStaff
 AS
