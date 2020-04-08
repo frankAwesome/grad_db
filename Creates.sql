@@ -1117,6 +1117,10 @@ EXEC('CREATE PROCEDURE uspInsertSaleReturn
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO SaleReturn VALUES(@ReturnID, @SaleID, @BaseProductID, @Quantity);
+			UPDATE StoreBaseProduct
+			SET Quantity = Quantity + @Quantity
+			WHERE BaseProductID = @BaseProductID
+			AND StoreID = (SELECT StoreID FROM SALE WHERE SaleID = @SaleID)
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1175,6 +1179,10 @@ EXEC('CREATE PROCEDURE uspInsertProductWriteoff
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO ProductWriteoff VALUES(@WriteoffID,@BaseProductID,@StoreID, @WriteoffReasonID,@Quantity);
+			UPDATE StoreBaseProduct
+			SET Quantity = Quantity - @Quantity
+			WHERE BaseProductID = @BaseProductID
+			AND StoreID = @StoreID
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1255,6 +1263,10 @@ EXEC('CREATE PROCEDURE uspInsertSaleProduct
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO SaleProduct VALUES(@SaleID,@BaseProductID,dbo.udfCalculateSellingPrice(@BaseProductID),@Quantity);
+			UPDATE StoreBaseProduct
+			SET Quantity = Quantity - @Quantity
+			WHERE BaseProductID = @BaseProductID
+			AND StoreID = (SELECT StoreID FROM SALE WHERE SaleID = @SaleID)
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -2657,3 +2669,15 @@ BEGIN
 	RETURN @SellingPrice
 END
 GO
+
+SELECT * FROM StoreBaseProduct
+
+SELECT * FROM SaleReturn
+
+DELETE FROM SaleReturn
+WHERE SaleID = 1
+
+EXEC uspInsertSaleReturn 1,1,1,1
+
+INSERT INTO StoreBaseProduct
+VALUES ('Damaged')
