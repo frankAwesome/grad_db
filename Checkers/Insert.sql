@@ -755,12 +755,12 @@ EXEC uspInsertSubCategory 'Stationery Storage', 14
 EXEC uspInsertSubCategory 'Stationery', 14
 EXEC uspInsertSubCategory 'Paper & Filing', 14
 
-EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'This is a very cool Air Cooler ;) Buy it!', 'C:Documents/Pictures/GoldairAirCooler.jpg', 1, 2
-EXEC uspInsertBaseProduct 1, 'Venta Hygrometer', 'Digital thermo-hygrometer with display indicating the temperature and relative humidity', 'C:Documents/Pictures/VentaHygrometer.jpg', 1, 2
-EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', 'Nice packets of Simba Peanuts & Raisins Baler', 'C:Documents/Pictures/SimbaPeanuts.jpg', 2, 2
-EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', 'Creamy and delicious Nestle Dessert Topping right when you need it.', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg', 1, 1
-EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Best game you can buy to keep you busy for hours', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg', 3, 1
-EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg', 1, 1
+EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'This is a very cool Air Cooler ;) Buy it!', 'C:Documents/Pictures/GoldairAirCooler.jpg', 1, 2, 309.95
+EXEC uspInsertBaseProduct 1, 'Venta Hygrometer', 'Digital thermo-hygrometer with display indicating the temperature and relative humidity', 'C:Documents/Pictures/VentaHygrometer.jpg', 1, 2, 119.95
+EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', 'Nice packets of Simba Peanuts & Raisins Baler', 'C:Documents/Pictures/SimbaPeanuts.jpg', 2, 2, 6.95
+EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', 'Creamy and delicious Nestle Dessert Topping right when you need it.', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg', 1, 1, 29.95
+EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Best game you can buy to keep you busy for hours', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg', 3, 1, 419.95
+EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg', 1, 1, 659.95
 
 EXEC uspInsertStoreBaseProduct 1, 1, 90
 EXEC uspInsertStoreBaseProduct 2, 1, 88
