@@ -85,7 +85,7 @@ CREATE TABLE Store
 	CompanyID INT FOREIGN KEY 
 		REFERENCES Company(CompanyID) 
 		ON UPDATE CASCADE
-		ON DELETE CASCADE,
+		ON DELETE NO ACTION,
 	AddressID INT FOREIGN KEY 
 		REFERENCES Address(AddressID) 
 		ON UPDATE CASCADE
@@ -285,7 +285,10 @@ CREATE TABLE SReturn /*** Return is a sql key word */
 (
 	ReturnID INT IDENTITY(1,1) PRIMARY KEY,
 	ReturnDate DATE NOT NULL,
-	ReturnReasonID INT FOREIGN KEY REFERENCES ReturnReason(ReturnReasonID)
+	ReturnReasonID INT FOREIGN KEY 
+		REFERENCES ReturnReason(ReturnReasonID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION
 );
 
 CREATE TABLE SaleReturn
@@ -295,8 +298,14 @@ CREATE TABLE SaleReturn
 	BaseProductID INT NOT NULL,
 	Quantity INT NOT NULL
 	CONSTRAINT PK_ReturnToSale PRIMARY KEY (ReturnID, SaleID, BaseProductID),
-	CONSTRAINT FK_ReturnToSale FOREIGN KEY (ReturnID) REFERENCES SReturn(ReturnID),
-	CONSTRAINT FK_SaleToReturn FOREIGN KEY (SaleID,BaseProductID) REFERENCES SaleProduct(SaleID,BaseProductID)
+	CONSTRAINT FK_ReturnToSale FOREIGN KEY (ReturnID) 
+		REFERENCES SReturn(ReturnID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	CONSTRAINT FK_SaleToReturn FOREIGN KEY (SaleID,BaseProductID) 
+		REFERENCES SaleProduct(SaleID,BaseProductID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 );
 
 CREATE TABLE WriteoffReason
@@ -316,18 +325,30 @@ CREATE TABLE ProductWriteoff
 	WriteoffID INT NOT NULL,
 	BaseProductID INT NOT NULL,
 	StoreID INT NOT NULL,
-	WriteoffReasonID INT FOREIGN KEY REFERENCES WriteoffReason(WriteoffReasonID),
+	WriteoffReasonID INT FOREIGN KEY 
+		REFERENCES WriteoffReason(WriteoffReasonID)
+		ON UPDATE CASCADE
+		ON DELETE SET NULL,
 	Quantity INT NOT NULL,
 	CONSTRAINT PK_WriteOffToProduct PRIMARY KEY (WriteoffID, BaseProductID, StoreID),
-	CONSTRAINT FK_WriteOffToProduct FOREIGN KEY (WriteoffID) REFERENCES Writeoff(WriteoffID),
-	CONSTRAINT FK_ProductToWriteOff FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+	CONSTRAINT FK_WriteOffToProduct FOREIGN KEY (WriteoffID) 
+		REFERENCES Writeoff(WriteoffID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	CONSTRAINT FK_ProductToWriteOff FOREIGN KEY (StoreID,BaseProductID) 
+		REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 );
 
 CREATE TABLE StockTake
 (
 	StocktakeID INT IDENTITY(1,1) PRIMARY KEY,
 	StocktakeDate DATE NOT NULL,
-	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID)
+	EmployeeID INT FOREIGN KEY 
+		REFERENCES Employee(EmployeeID)
+		ON UPDATE CASCADE
+		ON DELETE NO ACTION
 );
 
 CREATE TABLE StockTakeProduct
@@ -337,8 +358,14 @@ CREATE TABLE StockTakeProduct
 	StoreID INT NOT NULL,
 	NumberCounted INT NOT NULL,
 	CONSTRAINT PK_StockTakeToProduct PRIMARY KEY (StocktakeID,BaseProductID,StoreID),
-	CONSTRAINT FK_StockTakeToProduct FOREIGN KEY (StocktakeID) REFERENCES StockTake(StocktakeID),
-	CONSTRAINT FK_ProductToStockTake FOREIGN KEY (StoreID,BaseProductID) REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+	CONSTRAINT FK_StockTakeToProduct FOREIGN KEY (StocktakeID) 
+		REFERENCES StockTake(StocktakeID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	CONSTRAINT FK_ProductToStockTake FOREIGN KEY (StoreID,BaseProductID) 
+		REFERENCES StoreBaseProduct(StoreID,BaseProductID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 );
 
 CREATE TABLE Supplier
