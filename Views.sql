@@ -23,7 +23,7 @@ SELECT * FROM vProduct;
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vAllStaff' AND objectproperty(object_id,'IsView') = 1)
 EXEC( 'CREATE VIEW vAllStaff
 AS
-	SELECT FirstName, LastName, Email, Phone, dbo.udfGetEmployeeDOB(IDNumber) AS DOB, dbo.udfGetEmployeeAddress(AddressID) Address
+	SELECT FirstName, LastName, Email, Phone, dbo.udfGetEmployeeDOB(IDNumber) DOB, dbo.udfGetEmployeeAddress(AddressID) Address
 	FROM Employee;')
 GO
 SELECT * FROM vAllStaff;

@@ -1,7 +1,7 @@
 USE GenericCompanyDB;
 GO
 
-SELECT dbo.udfGetEmployeeDOB(9803180097089) AS DOB;
+SELECT dbo.udfGetEmployeeDOB('1804122625730') AS DOB;
 
 SELECT dbo.udfGetNumberOfEmployeesForStore(3) AS NoOfEmployeesForStore;
 

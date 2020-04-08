@@ -154,7 +154,7 @@ CREATE TABLE RolePermission
 CREATE TABLE Employee
 (
 	EmployeeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	IDNumber BIGINT UNIQUE NOT NULL,
+	IDNumber CHAR(13) UNIQUE NOT NULL,
 	FirstName VARCHAR(40),
 	LastName VARCHAR(50),
 	AddressID INT FOREIGN KEY 
@@ -434,10 +434,6 @@ ALTER TABLE Employee
 ADD CONSTRAINT CHK_Employee_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
-ALTER TABLE Employee
-ADD CONSTRAINT CHK_Employee_Valid_IDNumber
-CHECK(LEN(CAST(IDNumber AS VARCHAR(20))) = 13);
-
 ALTER TABLE Supplier
 ADD CONSTRAINT CHK_Supplier_Valid_Email
 CHECK(Email LIKE '%__@__%.__%' OR Email LIKE '%__@__%.__%.__%');
@@ -482,7 +478,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspSelectEmployee' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspSelectEmployee
-		@IDNumber BIGINT = NULL,
+		@IDNumber CHAR(13) = NULL,
 		@Email VARCHAR(20) = NULL
 	AS
 	BEGIN
@@ -834,7 +830,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertEmployee' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertEmployee
-		@IDNumber BIGINT,
+		@IDNumber CHAR(13),
 		@FirstName VARCHAR(40),
 		@LastName VARCHAR(50),
 		@AddressID INT,
@@ -1382,7 +1378,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateEmployeeName' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateEmployeeName
-		@IDNumber BIGINT,
+		@IDNumber CHAR(13),
 		@FirstName VARCHAR(40),
 		@LastName VARCHAR(50)
 	AS
@@ -1445,7 +1441,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateEmployeeRole' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateEmployeeRole
-		@IDNumber BIGINT,
+		@IDNumber CHAR(13),
 		@RoleName VARCHAR(50)
 	AS
 	BEGIN TRY
@@ -1468,7 +1464,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateEmployeeStore' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateEmployeeStore
-		@IDNumber BIGINT,
+		@IDNumber CHAR(13),
 		@StoreName VARCHAR(50)
 	AS
 	BEGIN TRY
@@ -2137,7 +2133,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteEmployee' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspDeleteEmployee
-		@IDNumber BIGINT = NULL
+		@IDNumber CHAR(13)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -2526,11 +2522,11 @@ BEGIN
 END
 GO
 
-CREATE FUNCTION udfGetEmployeeDOB (@IDNumber BIGINT)
+CREATE FUNCTION udfGetEmployeeDOB (@IDNumber CHAR(13))
 RETURNS DATE
 AS
 BEGIN
-	RETURN CAST(LEFT(@IDNumber, 6) AS DATE);
+	RETURN CAST(LEFT(CAST(@IDNumber AS BIGINT), 6) AS DATE);
 END
 GO
 
@@ -2542,7 +2538,7 @@ BEGIN
 END
 GO
 
-CREATE FUNCTION udfGetEmployeeFullName (@IDNumber BIGINT)
+CREATE FUNCTION udfGetEmployeeFullName (@IDNumber CHAR(13))
 RETURNS VARCHAR(60)
 AS
 BEGIN
