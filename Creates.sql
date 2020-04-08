@@ -1942,6 +1942,96 @@ GO
 *														CREATE DELETE STORED PROCEDURES	 												   *
 ********************************************************************************************************************************************/
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteProvince' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteProvince
+		@ProvinceName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Province
+			WHERE ProvinceName = @ProvinceName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteCity' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteCity
+		@CityName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM City
+			WHERE CityName = @CityName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSuburbByName' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteSuburbByName
+		@SuburbName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Suburb
+			WHERE SuburbName = @SuburbName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSuburbByPostalCode' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteSuburbByPostalCode
+		@PostalCode CHAR(4)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Suburb
+			WHERE PostalCode = @PostalCode
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteAddress' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspDeleteAddress
+		@AddressName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			DELETE FROM Address
+			WHERE AddressName = @AddressName
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteStoreType' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspDeleteStoreType
 		@TypeName VARCHAR(40)
