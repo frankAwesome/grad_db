@@ -164,8 +164,8 @@ CREATE TABLE Employee
 		ON DELETE SET NULL,
 	StoreID INT FOREIGN KEY 
 		REFERENCES Store(StoreID) 
-		ON UPDATE CASCADE
-		ON DELETE SET NULL
+		ON UPDATE NO ACTION
+		ON DELETE NO ACTION
 );
 
 CREATE TABLE Markup
@@ -362,12 +362,12 @@ CREATE TABLE StoreOrder
 		ON DELETE CASCADE NOT NULL,
 	StoreID INT FOREIGN KEY 
 		REFERENCES Store(StoreID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE NOT NULL,
+		ON UPDATE NO ACTION
+		ON DELETE NO ACTION,
 	OrderDate DATE NOT NULL,
 	EmployeeID INT FOREIGN KEY 
 		REFERENCES Employee(EmployeeID) 
-		ON UPDATE CASCADE
+		ON UPDATE NO ACTION
 		ON DELETE NO ACTION,
 	OrderStatus VARCHAR(20) NOT NULL,
 	DateReceived DATE
@@ -414,12 +414,12 @@ CHECK(Phone NOT LIKE '%[^0-9]%');
 ********************************************************************************************************************************************/
 
 CREATE NONCLUSTERED INDEX idxBaseProductName
-ON dbo.BaseProduct (BaseProductName)
+ON BaseProduct (BaseProductName)
 INCLUDE (BaseProductPicture, BaseProductDescription);
 GO
 
 CREATE NONCLUSTERED INDEX idxDealName
-ON dbo.Deal (DealName)
+ON Deal (DealName)
 INCLUDE (Description);
 GO
 
