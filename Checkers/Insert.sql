@@ -795,3 +795,9 @@ EXEC uspInsertOrderProduct 1, 1, 20
 EXEC uspInsertOrderProduct 2, 2, 400
 EXEC uspInsertOrderProduct 3, 3, 700
 EXEC uspInsertOrderProduct 4, 4, 5
+
+EXEC uspInsertWriteoffReason 'Expired'
+
+EXEC uspInsertWriteoff '2020-04-29'
+
+EXEC uspInsertProductWriteoff 1, 1, 1, 1, 1
