@@ -727,7 +727,7 @@ EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software',
 
 EXEC uspInsertStoreBaseProduct 1, 1, 90
 EXEC uspInsertStoreBaseProduct 2, 1, 88
-EXEC uspInsertStoreBaseProduct 1, 2, 2
+EXEC uspInsertStoreBaseProduct 1, 2, 34
 EXEC uspInsertStoreBaseProduct 2, 2, 150
 EXEC uspInsertStoreBaseProduct 1, 4, 23
 EXEC uspInsertStoreBaseProduct 1, 3, 22
