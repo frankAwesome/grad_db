@@ -960,7 +960,7 @@ EXEC('CREATE PROCEDURE uspInsertBaseProduct
 		@BaseProductDescription VARCHAR(100),
 		@BaseProductPicture VARCHAR(50),
 		@DealID INT,
-		@ProductTaxID INT
+		@ProductTaxID INT,
 		@ProductBaseCostPrice DECIMAL(10,2)
 	AS
 	BEGIN TRY
