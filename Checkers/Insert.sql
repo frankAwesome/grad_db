@@ -759,8 +759,14 @@ EXEC uspInsertOrderProduct 2, 2, 400
 EXEC uspInsertOrderProduct 3, 3, 700
 EXEC uspInsertOrderProduct 4, 4, 5
 
-EXEC uspInsertWriteoffReason 'Expired'
 
+/*WRITEOFFS*/
+/*WRITEOFFS - this example shows 1 items are deducted from inventory quantity due to damage with the BaseProductId of 1*/
+EXEC uspInsertWriteoffReason 'Damaged'
 EXEC uspInsertWriteoff '2020-04-29'
-
 EXEC uspInsertProductWriteoff 1, 1, 1, 1, 1
+
+/*SALES*/
+/*SALES - this example shows 2 items (Simba P&R) are sold with the BaseProductId of 3*/
+EXEC uspInsertSale 19.90, 1, 1
+EXEC uspInsertSaleProduct 1, 3, 2
