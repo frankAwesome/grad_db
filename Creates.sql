@@ -2669,15 +2669,3 @@ BEGIN
 	RETURN @SellingPrice
 END
 GO
-
-SELECT * FROM StoreBaseProduct
-
-SELECT * FROM SaleReturn
-
-DELETE FROM SaleReturn
-WHERE SaleID = 1
-
-EXEC uspInsertSaleReturn 1,1,1,1
-
-INSERT INTO StoreBaseProduct
-VALUES ('Damaged')
