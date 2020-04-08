@@ -1,6 +1,8 @@
 /*******************************************************************************************************************************************
 *															CREATE DATABASE																   *
 ********************************************************************************************************************************************/
+IF EXISTS (SELECT name FROM sys.databases WHERE name = 'GenericCompanyDB')
+DROP DATABASE GenericCompanyDB;
 
 CREATE DATABASE GenericCompanyDB;
 GO
@@ -934,7 +936,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSReturn' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertSReturn
 		@ReturnDate DATE,
-		@ReturnReasonID INT,
+		@ReturnReasonID INT
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -1469,7 +1471,7 @@ EXEC('CREATE PROCEDURE uspUpdateStoreOrderDateReceived
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSReturnDate' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspUpdateSReturn
+EXEC('CREATE PROCEDURE uspUpdateSReturnDate
 		@ReturnID INT,
 		@ReturnDate DATE
 	AS
@@ -1489,7 +1491,7 @@ EXEC('CREATE PROCEDURE uspUpdateSReturn
 GO 
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSReturnReason' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspUpdateSReturn
+EXEC('CREATE PROCEDURE uspUpdateSReturnReason
 		@ReturnID INT,
 		@ReturnReasonID INT
 	AS
@@ -1719,7 +1721,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateSubCategory' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateSubCategory
 		@SubCategoryID INT,
-		@SubCategoryName VARCHAR(50),
+		@SubCategoryName VARCHAR(50)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -1739,7 +1741,7 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateMainCategory' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateMainCategory
 		@MainCategoryID INT,
-		@CategoryName VARCHAR(50),
+		@CategoryName VARCHAR(50)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -1807,7 +1809,7 @@ EXEC('CREATE PROCEDURE uspUpdateProductAttributeDescription
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			UPDATE ProductAttribute
-			SET ProductAttributeDescription = @ProductAttributeDescription
+			SET ProductAttributeDecription = @ProductAttributeDescription
 			WHERE ProductAttributeName = @ProductAttributeName
 		COMMIT TRANSACTION;
 	END TRY
@@ -2232,7 +2234,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteProductValue' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspDeleteProductValue
-		@BaseProductID INT
+		@BaseProductID INT,
 		@ProductAttributeID INT
 	AS
 	BEGIN TRY
@@ -2258,7 +2260,7 @@ EXEC('CREATE PROCEDURE uspDeleteProductAttribute
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			DELETE FROM ProductAttribute
-			WHERE AttributeName = @AttributeName
+			WHERE ProductAttributeName = @AttributeName
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
