@@ -8,66 +8,53 @@ GO
 
 /****** Create Views  ******/
 
-CREATE VIEW vAllStaff
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vAllStaff' AND objectproperty(object_id,'IsView') = 1)
+EXEC( 'CREATE VIEW vAllStaff
 AS
-SELECT FirstName,
-LastName,
-Email,
-Phone
-FROM dbo.Employee;
+	SELECT FirstName, LastName, Email, Phone, dbo.udfGetEmployeeDOB(IDNumber) AS DOB, dbo.udfGetEmployeeAddress(AddressID) Address
+	FROM Employee;')
 GO
 SELECT * FROM vAllStaff;
 
-
-CREATE VIEW vStore
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vStore' AND objectproperty(object_id,'IsView') = 1)
+EXEC('CREATE VIEW vStore
 AS
-SELECT c.CompanyName,s.StoreName
-FROM Company c,Store s	
-WHERE c.CompanyID =s.CompanyID
-
+	SELECT company.CompanyName,store.StoreName
+	FROM Company company, Store store	
+	WHERE company.CompanyID = store.CompanyID;')
 GO
 SELECT * FROM vStore ;
 
-
-
-CREATE VIEW vGetNumberOfEmployees
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vGetNumberOfEmployees' AND objectproperty(object_id,'IsView') = 1)
+EXEC('CREATE VIEW vGetNumberOfEmployees
 AS
-SELECT dbo.udfGetNumberOfEmployeesForStore('1')  Number_Emp
+	SELECT dbo.udfGetNumberOfEmployeesForStore(1) AS Number_Of_Employees_For_Store;')
 GO
 SELECT * FROM vGetNumberOfEmployees;
 
-
-CREATE VIEW vEmployeeAddress	
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vEmployeeDateOfBirth' AND objectproperty(object_id,'IsView') = 1)
+EXEC('CREATE VIEW vEmployeeDateOfBirth
 AS
-SELECT dbo.udfGetEmployeeAddress('4') Emp_Address
+	SELECT dbo.udfGetEmployeeDOB(IDNumber) AS DOB
+	FROM Employee;')
 GO
-SELECT * FROM vEmployeeAddress;
+SELECT * FROM vEmployeeDateOfBirth;
 
-
-
-CREATE VIEW Emp_DateOfBirth
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vOrderStatus' AND objectproperty(object_id,'IsView') = 1)
+EXEC('CREATE VIEW vOrderStatus
 AS
-SELECT dbo.udfGetEmployeeDOB(9803180097089) AS DOB
-GO
-SELECT * FROM Emp_DateOfBirth;
-
-
-CREATE VIEW vOrderStatus
-AS
-SELECT dbo.udfGetOrderStatus(1) AS OrderStatus;
+	SELECT dbo.udfGetOrderStatus(1) AS Order_Status;')
 GO
 SELECT * FROM vOrderStatus;
 
-
-CREATE VIEW vOrdersCreated5
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='vOrdersCreatedByEmployee' AND objectproperty(object_id,'IsView') = 1)
+EXEC('CREATE VIEW vOrdersCreatedByEmployee
 AS
-SELECT * FROM dbo.udfGetOrdersCreatedByAnEmployee(5)
+	SELECT * FROM dbo.udfGetOrdersCreatedByAnEmployee(5);')
 GO
-SELECT * FROM vOrdersCreated5;
+SELECT * FROM vOrdersCreatedByEmployee;
 
 
 
 
 /****** Create Views end ******/
-
-
