@@ -138,12 +138,17 @@ CREATE TABLE Permission
 
 CREATE TABLE RolePermission
 (
-	RolePermissionID INT IDENTITY(1,1) PRIMARY KEY,
-	RoleID INT FOREIGN KEY REFERENCES Role(RoleID),
-	PermissionID INT FOREIGN KEY 
-		REFERENCES Permission(PermissionID) 
+	RoleID INT NOT NULL,
+	PermissionID INT NOT NULL,
+	CONSTRAINT PK_RolePermission PRIMARY KEY (RoleID,PermissionID),
+	CONSTRAINT FK_RoleToPermission FOREIGN KEY(RoleID) 
+		REFERENCES Role(RoleID)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE NOT NULL
+		ON DELETE CASCADE,
+	CONSTRAINT FK_PermissionToRole FOREIGN KEY (PermissionID) 
+		REFERENCES Permission(PermissionID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 );
 
 CREATE TABLE Employee
@@ -270,9 +275,9 @@ CREATE TABLE ProductValue
 	BaseProductID INT NOT NULL,
 	ProductAttributeID INT NOT NULL,
 	ProductValValue VARCHAR(50) NOT NULL,
-	CONSTRAINT pk_producttoattribute PRIMARY KEY (BaseProductID,ProductAttributeID),
-	CONSTRAINT fk_producttoattribute FOREIGN KEY(BaseProductID) REFERENCES BaseProduct(BaseProductID),
-	CONSTRAINT fk_attributetoproduct FOREIGN KEY (ProductAttributeID) REFERENCES ProductAttribute(ProductAttributeID)
+	CONSTRAINT PK_ProductToAttribute PRIMARY KEY (BaseProductID,ProductAttributeID),
+	CONSTRAINT FK_ProductToAttribute FOREIGN KEY(BaseProductID) REFERENCES BaseProduct(BaseProductID),
+	CONSTRAINT FK_AttributeToProduct FOREIGN KEY (ProductAttributeID) REFERENCES ProductAttribute(ProductAttributeID)
 );
 
 CREATE TABLE ReturnReason
