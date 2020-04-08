@@ -29,7 +29,7 @@ CREATE TABLE Errors(
 CREATE TABLE Company
 (
 	CompanyID INT IDENTITY(1,1) PRIMARY KEY,
-	CompanyName VARCHAR(50) NOT NULL,
+	CompanyName VARCHAR(50) UNIQUE NOT NULL,
 	DateOfEstablish DATE NOT NULL,
 	Description VARCHAR(100) NOT NULL,
 );
@@ -95,7 +95,7 @@ CREATE TABLE Store
 CREATE TABLE OperationalCostType
 (
 	OperationalCostTypeID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Name VARCHAR(100) NOT NULL,
+	Name VARCHAR(100) UNIQUE NOT NULL,
 	Description VARCHAR(100) NOT NULL
 );
 
@@ -182,7 +182,7 @@ CREATE TABLE Markup
 CREATE TABLE Deal
 (
 	DealID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	DealName VARCHAR(60) NOT NULL,
+	DealName VARCHAR(60) UNIQUE NOT NULL,
 	StartDate DATE NOT NULL,
 	EndDate DATE NOT NULL,
 	Description VARCHAR(100) NOT NULL,
@@ -202,13 +202,13 @@ CREATE TABLE ProductTax
 CREATE TABLE MainCategory
 (
 	MainCategoryID INT IDENTITY(1,1) PRIMARY KEY,
-	CategoryName VARCHAR(50) NOT NULL,
+	CategoryName VARCHAR(50) UNIQUE NOT NULL,
 );
 
 CREATE TABLE SubCategory
 (
 	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
-	SubCategoryName VARCHAR(50) NOT NULL,
+	SubCategoryName VARCHAR(50) UNIQUE NOT NULL,
 	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID)
 );
 
@@ -216,7 +216,7 @@ CREATE TABLE BaseProduct
 (
 	BaseProductID INT IDENTITY(1,1) PRIMARY KEY,
 	SubCategoryID INT FOREIGN KEY REFERENCES SubCategory(SubCategoryID),
-	BaseProductName VARCHAR(50) NOT NULL,
+	BaseProductName VARCHAR(50) UNIQUE NOT NULL,
 	BaseProductDescription VARCHAR(100) NOT NULL,
 	BaseProductPicture VARCHAR(50) NOT NULL,
 	DealID INT FOREIGN KEY REFERENCES Deal(DealID) NOT NULL,
@@ -266,7 +266,7 @@ CREATE TABLE SaleProduct
 CREATE TABLE ProductAttribute
 (
 	ProductAttributeID INT IDENTITY(1,1) PRIMARY KEY,
-	ProductAttributeName VARCHAR(50) NOT NULL,
+	ProductAttributeName VARCHAR(50) UNIQUE NOT NULL,
 	ProductAttributeDecription VARCHAR(100) NOT NULL,
 	ProductAttributeType VARCHAR(50) NOT NULL,
 );
