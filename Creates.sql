@@ -220,7 +220,8 @@ CREATE TABLE BaseProduct
 	BaseProductDescription VARCHAR(100) NOT NULL,
 	BaseProductPicture VARCHAR(50) NOT NULL,
 	DealID INT FOREIGN KEY REFERENCES Deal(DealID) NOT NULL,
-	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID)
+	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID) NOT NULL,
+	BaseProductCostPrice DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE StoreBaseProduct
@@ -562,12 +563,13 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertProvince' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertProvince
 		@ProvinceName VARCHAR(50)
-	AS
+	AS 
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO Province VALUES(@ProvinceName);
 		COMMIT TRANSACTION;
+		RETURN SCOPE_IDENTITY()
 	END TRY
 	BEGIN CATCH
 		ROLLBACK;
@@ -585,7 +587,8 @@ EXEC('CREATE PROCEDURE uspInsertCity
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
 			INSERT INTO City VALUES(@CityName, @ProvinceID);
-		COMMIT TRANSACTION;
+		COMMIT TRANSACTION;		
+		RETURN SCOPE_IDENTITY();
 	END TRY
 	BEGIN CATCH
 		ROLLBACK;
@@ -605,6 +608,7 @@ EXEC('CREATE PROCEDURE uspInsertSuburb
 		BEGIN TRANSACTION
 			INSERT INTO Suburb VALUES(@SuburbName, @PostalCode, @CityID);
 		COMMIT TRANSACTION;
+		RETURN SCOPE_IDENTITY();
 	END TRY
 	BEGIN CATCH
 		ROLLBACK;
@@ -623,6 +627,54 @@ EXEC('CREATE PROCEDURE uspInsertAddress
 		BEGIN TRANSACTION
 			INSERT INTO Address VALUES(@AddressName, @SuburbID);
 		COMMIT TRANSACTION;
+		RETURN SCOPE_IDENTITY();
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertAddressFull' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspInsertAddressFull
+		@AddressName VARCHAR(50),
+		@SuburbName VARCHAR(50),
+		@PostalCode CHAR(4),
+		@CityName VARCHAR(50),
+		@ProvinceName VARCHAR(50)
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+
+		DECLARE @ProvinceID INT;
+		DECLARE @CityID INT;
+		DECLARE @SuburbID INT;
+
+		SELECT @ProvinceID = ProvinceID FROM Province WHERE ProvinceName = @ProvinceName;
+		IF @ProvinceID IS NULL
+			BEGIN
+				EXEC @ProvinceID = dbo.uspInsertProvince @ProvinceName;
+			END
+
+		SELECT @CityID = CityID From City WHERE CityName = @CityName;
+		IF @CityID IS NULL
+			BEGIN
+				EXEC @CityID = dbo.uspInsertCity @CityName, @ProvinceID;
+			END
+			
+		SELECT @SuburbID = SuburbID FROM Suburb WHERE SuburbName = @SuburbName;
+		IF @SuburbID IS NULL
+			BEGIN
+				EXEC @SuburbID = dbo.uspInsertSuburb @SuburbName, @PostalCode, @CityID;
+			END
+
+		BEGIN
+			BEGIN TRANSACTION
+				INSERT INTO Address VALUES(@AddressName, @SuburbID);
+			COMMIT TRANSACTION;
+		END
+					
 	END TRY
 	BEGIN CATCH
 		ROLLBACK;
@@ -959,12 +1011,13 @@ EXEC('CREATE PROCEDURE uspInsertBaseProduct
 		@BaseProductDescription VARCHAR(100),
 		@BaseProductPicture VARCHAR(50),
 		@DealID INT,
-		@ProductTaxID INT
+		@ProductTaxID INT,
+		@BaseProductCostPrice DECIMAL(10,2)
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO BaseProduct VALUES(@SubCategoryID,@BaseProductName,@BaseProductDescription,@BaseProductPicture,@DealID,@ProductTaxID);
+			INSERT INTO BaseProduct VALUES(@SubCategoryID,@BaseProductName,@BaseProductDescription,@BaseProductPicture,@DealID,@ProductTaxID,@BaseProductCostPrice);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1169,7 +1222,6 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSale' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspInsertSale
-		@SaleDate DATETIME,
 		@SaleAmount DECIMAL(10,2),
 		@EmployeeID INT,
 		@StoreID INT
@@ -1178,7 +1230,7 @@ EXEC('CREATE PROCEDURE uspInsertSale
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO Sale VALUES(@SaleDate,@SaleAmount,@EmployeeID,@StoreID);
+			INSERT INTO Sale VALUES(getDate(),@SaleAmount,@EmployeeID,@StoreID);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -1192,14 +1244,13 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspInsertSaleProduct' AND o
 EXEC('CREATE PROCEDURE uspInsertSaleProduct
 		@SaleID INT,
 		@BaseProductID INT,
-		@SellingPrice DECIMAL(10,2),
 		@Quantity INT
 		
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO SaleProduct VALUES(@SaleID,@BaseProductID,@SellingPrice,@Quantity);
+			INSERT INTO SaleProduct VALUES(@SaleID,@BaseProductID,dbo.udfCalculateSellingPrice(@BaseProductID),@Quantity);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
@@ -2583,4 +2634,22 @@ CREATE FUNCTION udfGetOrdersByStatus(@OrderStatus VARCHAR(20))
 RETURNS TABLE
 AS
 	RETURN (SELECT * FROM StoreOrder WHERE OrderStatus = @OrderStatus);
+GO
+
+CREATE FUNCTION udfCalculateSellingPrice(@BaseProductID INT)
+RETURNS DECIMAL(10,2)
+AS
+BEGIN
+	DECLARE @VAT DECIMAL(10,2);
+	SET @VAT = (SELECT ProductTaxValue FROM ProductTax WHERE ProductTaxID = (SELECT ProductTaxID FROM BaseProduct WHERE BaseProductID = @BaseProductID));
+	DECLARE @MarkupVal DECIMAL(10,2);
+	SET @MarkupVal = (SELECT MarkupValue FROM Markup WHERE MarkupID = (SELECT MarkupID FROM Deal WHERE DealID = (SELECT DealID FROM BaseProduct WHERE BaseProductID = @BaseProductID)))
+	DECLARE @CostPrice DECIMAL(10,2);
+	DECLARE @SellingPrice DECIMAL(10,2);
+	SET @CostPrice = (SELECT BaseProductCostPrice FROM BaseProduct WHERE BaseProductID = @BaseProductID)
+	DECLARE @PreSellingPrice DECIMAL(10,2);
+	SET @PreSellingPrice = (@CostPrice*(1+(@MarkupVal/100)))
+	SET @SellingPrice = (@PreSellingPrice*(1+(@VAT/100)))
+	RETURN @SellingPrice
+END
 GO

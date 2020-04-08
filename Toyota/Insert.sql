@@ -626,19 +626,44 @@ EXEC uspInsertProductTax 'VAT', 14.0
 EXEC uspInsertMainCategory 'Offroad'
 EXEC uspInsertMainCategory 'Road'
 
+EXEC uspInsertSubCategory 'Pickup', 1
 EXEC uspInsertSubCategory 'SUV', 1
+EXEC uspInsertSubCategory 'SUV', 2
 EXEC uspInsertSubCategory 'Sportster', 2
+EXEC uspInsertSubCategory 'Sedan', 2
+EXEC uspInsertSubCategory 'Hatchback', 2
+EXEC uspInsertSubCategory 'Bus', 2
 
-EXEC uspInsertBaseProduct 1, 'Dakar', 'Double Cab Dakar Rally Bakkie', 'C:Documents/Pictures/Bakkies/Dakar.jpg', 1, 2
-EXEC uspInsertBaseProduct 2, 'Supra', '2020 Toyota Supra 3.0 Premium', 'C:Documents/Pictures/Sportster/Supra.jpg', 3, 2
+EXEC uspInsertBaseProduct 1, 'Hilux', 'Double Cab Dakar Rally Edition', 'C:\Documents\Pictures\Pickup\Dakar.jpg', 1, 2, 399995.95
+EXEC uspInsertBaseProduct 2, 'Land Cruiser', '76', 'C:\Documents\Pictures\SUV\LandCruiser76.jpg', 1, 2, 569995.95
+EXEC uspInsertBaseProduct 3, 'Rav4', '2.0 GX 2WD', 'C:\Documents\Pictures\SUV\Rav42WD.jpg', 1, 2, 379995.95
+EXEC uspInsertBaseProduct 4, 'Supra', '3.0 Premium', 'C:\Documents\Pictures\Sportster\Supra.jpg', 3, 2, 789995.95
+EXEC uspInsertBaseProduct 5, 'Corolla', 'Corolla Quest', 'C:\Documents\Pictures\Sedan\Corolla Quest.jpg', 1, 2, 249995.95
+EXEC uspInsertBaseProduct 6, 'Yaris', 'Yaris 1.5 CVT', 'C:\Documents\Pictures\Pickup\Yaris.jpg', 1, 2, 179995.95
+EXEC uspInsertBaseProduct 7, 'Quantum', 'Quantum 2.8 GL', 'C:\Documents\Pictures\Bus\Quantum.jpg', 1, 2, 969995.95
 
 EXEC uspInsertStoreBaseProduct 1, 2, 100
 EXEC uspInsertStoreBaseProduct 2, 1, 23
+EXEC uspInsertStoreBaseProduct 3, 3, 8
+EXEC uspInsertStoreBaseProduct 4, 4, 67
+EXEC uspInsertStoreBaseProduct 5, 5, 214
+EXEC uspInsertStoreBaseProduct 6, 6, 36
+EXEC uspInsertStoreBaseProduct 7, 7, 11
 
 EXEC uspInsertProductValue 1, 1, '3000Kg'
-EXEC uspInsertProductValue 2, 1, '2500Kg'
+EXEC uspInsertProductValue 2, 1, '3500Kg'
+EXEC uspInsertProductValue 3, 1, '2500Kg'
+EXEC uspInsertProductValue 4, 1, '1500Kg'
+EXEC uspInsertProductValue 5, 1, '1900Kg'
+EXEC uspInsertProductValue 6, 1, '1500Kg'
+EXEC uspInsertProductValue 7, 1, '3100Kg'
 EXEC uspInsertProductValue 1, 2, 'White'
-EXEC uspInsertProductValue 2, 2, 'Red'
+EXEC uspInsertProductValue 2, 2, 'Black'
+EXEC uspInsertProductValue 3, 2, 'Blue'
+EXEC uspInsertProductValue 4, 2, 'Silver'
+EXEC uspInsertProductValue 5, 2, 'White'
+EXEC uspInsertProductValue 6, 2, 'Red'
+EXEC uspInsertProductValue 7, 2, 'White'
 
 EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
 EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
