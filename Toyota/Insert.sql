@@ -620,6 +620,29 @@ EXEC uspInsertSupplier 'Supplier Three', 'supplier3@gmail.com', '0115589745', 2
 EXEC uspInsertSupplier 'Supplier Four', 'supplier4@gmail.com', '0325548956', 16
 EXEC uspInsertSupplier 'Supplier Five', 'supplier5@gmail.com', '0114572323', 30
 
+EXEC uspInsertProductTax 'No TAX', 0.0
+EXEC uspInsertProductTax 'VAT', 14.0
+
+EXEC uspInsertMainCategory 'Offroad'
+EXEC uspInsertMainCategory 'Road'
+
+EXEC uspInsertSubCategory 'SUV', 1
+EXEC uspInsertSubCategory 'Sportster', 2
+
+EXEC uspInsertBaseProduct 1, 'Dakar', 'Double Cab Dakar Rally Bakkie', 'C:Documents/Pictures/Bakkies/Dakar.jpg', 1, 2
+EXEC uspInsertBaseProduct 2, 'Supra', '2020 Toyota Supra 3.0 Premium', 'C:Documents/Pictures/Sportster/Supra.jpg', 3, 2
+
+EXEC uspInsertStoreBaseProduct 1, 2, 100
+EXEC uspInsertStoreBaseProduct 2, 1, 23
+
+EXEC uspInsertProductValue 1, 1, '3000Kg'
+EXEC uspInsertProductValue 2, 1, '2500Kg'
+EXEC uspInsertProductValue 1, 2, 'White'
+EXEC uspInsertProductValue 2, 2, 'Red'
+
+EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
+EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
+
 EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
 EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
 EXEC uspInsertStoreOrder 3, 3, '2020-04-26', 3, 'Order Received', NULL
@@ -633,23 +656,3 @@ EXEC uspInsertOrderProduct 1, 1, 20
 EXEC uspInsertOrderProduct 2, 2, 400
 EXEC uspInsertOrderProduct 3, 3, 700
 EXEC uspInsertOrderProduct 4, 4, 5
-
-EXEC uspInsertMainCategory 'Offroad'
-EXEC uspInsertMainCategory 'Road'
-
-EXEC uspInsertSubCategory 'SUV', 1
-EXEC uspInsertSubCategory 'Sportster', 2
-
-EXEC uspInsertBaseProduct 1, 'Dakar', 'Double Cab Dakar Rally Bakkie', 'C:Documents/Pictures/Bakkies/Dakar.jpg'
-EXEC uspInsertBaseProduct 2, 'Supra', '2020 Toyota Supra 3.0 Premium', 'C:Documents/Pictures/Sportster/Supra.jpg'
-
-EXEC uspInsertStoreBaseProduct 1, 2, 100
-EXEC uspInsertStoreBaseProduct 2, 1, 23
-
-EXEC uspInsertProductValue 1, 1, '3000Kg'
-EXEC uspInsertProductValue 2, 1, '2500Kg'
-EXEC uspInsertProductValue 1, 2, 'White'
-EXEC uspInsertProductValue 2, 2, 'Red'
-
-EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
-EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'

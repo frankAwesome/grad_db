@@ -630,19 +630,8 @@ EXEC uspInsertSupplier 'Supplier Three', 'supplier3@gmail.com', '0115589745', 2
 EXEC uspInsertSupplier 'Supplier Four', 'supplier4@gmail.com', '0325548956', 16
 EXEC uspInsertSupplier 'Supplier Five', 'supplier5@gmail.com', '0114572323', 30
 
-EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
-EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
-EXEC uspInsertStoreOrder 3, 3, '2020-04-26', 3, 'Order Received', NULL
-EXEC uspInsertStoreOrder 4, 4, '2020-04-27', 4, 'Order In Progress', NULL
-EXEC uspInsertStoreOrder 1, 5, '2020-04-28', 5, 'Order On Route', NULL
-EXEC uspInsertStoreOrder 2, 6, '2020-04-28', 6, 'Order Delivered', NULL
-EXEC uspInsertStoreOrder 3, 7, '2020-04-28', 7, 'Order Delivered', NULL
-EXEC uspInsertStoreOrder 4, 8, '2020-04-28', 8, 'Order Received', NULL
-
-EXEC uspInsertOrderProduct 1, 1, 20
-EXEC uspInsertOrderProduct 2, 2, 400
-EXEC uspInsertOrderProduct 3, 3, 700
-EXEC uspInsertOrderProduct 4, 4, 5
+EXEC uspInsertProductTax 'No TAX', 0.0
+EXEC uspInsertProductTax 'VAT', 14.0
 
 EXEC uspInsertMainCategory 'Appliances'
 EXEC uspInsertMainCategory 'Baby, Toddlers, & Kids'
@@ -766,12 +755,12 @@ EXEC uspInsertSubCategory 'Stationery Storage', 14
 EXEC uspInsertSubCategory 'Stationery', 14
 EXEC uspInsertSubCategory 'Paper & Filing', 14
 
-EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'This is a very cool Air Cooler ;) Buy it!', 'C:Documents/Pictures/GoldairAirCooler.jpg'
-EXEC uspInsertBaseProduct 1, 'Venta Hygrometer', 'Digital thermo-hygrometer with display indicating the temperature and relative humidity', 'C:Documents/Pictures/VentaHygrometer.jpg'
-EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', 'Nice packets of Simba Peanuts & Raisins Baler', 'C:Documents/Pictures/SimbaPeanuts.jpg'
-EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', 'Creamy and delicious Nestle Dessert Topping right when you need it.', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg'
-EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Best game you can buy to keep you busy for hours', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg'
-EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg'
+EXEC uspInsertBaseProduct 1, 'Goldair Air Cooler', 'This is a very cool Air Cooler ;) Buy it!', 'C:Documents/Pictures/GoldairAirCooler.jpg', 1, 2
+EXEC uspInsertBaseProduct 1, 'Venta Hygrometer', 'Digital thermo-hygrometer with display indicating the temperature and relative humidity', 'C:Documents/Pictures/VentaHygrometer.jpg', 1, 2
+EXEC uspInsertBaseProduct 45, 'Simba Peanuts & Raisins Baler', 'Nice packets of Simba Peanuts & Raisins Baler', 'C:Documents/Pictures/SimbaPeanuts.jpg', 2, 2
+EXEC uspInsertBaseProduct 46, 'Nestle Dessert Topping Peppermint Crisp', 'Creamy and delicious Nestle Dessert Topping right when you need it.', 'C:Documents/Pictures/NestleDessertToppingPeppermintCrisp.jpg', 1, 1
+EXEC uspInsertBaseProduct 48, 'PS4 Need For Speed Payback', 'Best game you can buy to keep you busy for hours', 'C:Documents/Pictures/PS4NeedForSpeedPayback.jpg', 3, 1
+EXEC uspInsertBaseProduct 48, 'Xbox One Red Dead Redemption 2', 'Xbox software', 'C:Documents/Pictures/XboxOneRedDeadRedemption2.jpg', 1, 1
 
 EXEC uspInsertStoreBaseProduct 1, 1, 90
 EXEC uspInsertStoreBaseProduct 2, 1, 88
@@ -792,3 +781,17 @@ EXEC uspInsertProductAttribute 'Age Rating', 'Minimum age to recommended to play
 EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
 EXEC uspInsertProductAttribute 'Package Amount', 'Overall amount of packages in container', 'Quantity'
 EXEC uspInsertProductAttribute 'Outer Dimensions', 'Dimensions of package [L x W x H]', 'Dimensions'
+
+EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
+EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 3, 3, '2020-04-26', 3, 'Order Received', NULL
+EXEC uspInsertStoreOrder 4, 4, '2020-04-27', 4, 'Order In Progress', NULL
+EXEC uspInsertStoreOrder 1, 5, '2020-04-28', 5, 'Order On Route', NULL
+EXEC uspInsertStoreOrder 2, 6, '2020-04-28', 6, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 3, 7, '2020-04-28', 7, 'Order Delivered', NULL
+EXEC uspInsertStoreOrder 4, 8, '2020-04-28', 8, 'Order Received', NULL
+
+EXEC uspInsertOrderProduct 1, 1, 20
+EXEC uspInsertOrderProduct 2, 2, 400
+EXEC uspInsertOrderProduct 3, 3, 700
+EXEC uspInsertOrderProduct 4, 4, 5
