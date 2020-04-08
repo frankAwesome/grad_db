@@ -112,9 +112,11 @@ CREATE TABLE Permission
 
 CREATE TABLE RolePermission
 (
-	RolePermissionID INT IDENTITY(1,1) PRIMARY KEY,
-	RoleID INT FOREIGN KEY REFERENCES Role(RoleID),
-	PermissionID INT FOREIGN KEY REFERENCES Permission(PermissionID)
+	RoleID INT NOT NULL,
+	PermissionID INT NOT NULL,
+	CONSTRAINT PK_RolePermission PRIMARY KEY (RoleID,PermissionID),
+	CONSTRAINT FK_RoleToPermission FOREIGN KEY (RoleID) REFERENCES Role(RoleID),
+	CONSTRAINT FK_PermissionToRole FOREIGN KEY (PermissionID) REFERENCES Permission(PermissionID)
 );
 
 CREATE TABLE Employee
