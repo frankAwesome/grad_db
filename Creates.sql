@@ -44,7 +44,7 @@ CREATE TABLE City
 (
 	CityID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	CityName VARCHAR(50) NOT NULL,
-	ProvinceID INT FOREIGN KEY REFERENCES Province(ProvinceID)
+	ProvinceID INT FOREIGN KEY REFERENCES Province(ProvinceID) ON DELETE CASCADE
 );
 
 CREATE TABLE Suburb
@@ -52,14 +52,14 @@ CREATE TABLE Suburb
 	SuburbID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	SuburbName VARCHAR(50) NOT NULL,
 	PostalCode CHAR(4) UNIQUE NULL,
-	CityID INT FOREIGN KEY REFERENCES City(CityID)
+	CityID INT FOREIGN KEY REFERENCES City(CityID) ON DELETE CASCADE
 );
 
 CREATE TABLE Address
 (
 	AddressID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	AddressName VARCHAR(50) NOT NULL,
-	SuburbID INT FOREIGN KEY REFERENCES Suburb(SuburbID)
+	SuburbID INT FOREIGN KEY REFERENCES Suburb(SuburbID) ON DELETE CASCADE
 );
 
 CREATE TABLE StoreType
@@ -73,8 +73,8 @@ CREATE TABLE Store
 	StoreID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	StoreName VARCHAR(50) UNIQUE NOT NULL,
 	TypeID INT FOREIGN KEY REFERENCES StoreType(TypeID),
-	CompanyID INT FOREIGN KEY REFERENCES Company(CompanyID),
-	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
+	CompanyID INT FOREIGN KEY REFERENCES Company(CompanyID) ON DELETE CASCADE,
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) ON DELETE SET NULL
 );
 
 CREATE TABLE OperationalCostType
@@ -87,15 +87,15 @@ CREATE TABLE OperationalCostType
 CREATE TABLE OperationalCost
 (
 	OperationalCostID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	OperationalCostTypeID INT FOREIGN KEY REFERENCES OperationalCostType(OperationalCostTypeID) NOT NULL,
+	OperationalCostTypeID INT FOREIGN KEY REFERENCES OperationalCostType(OperationalCostTypeID) ON DELETE CASCADE NOT NULL,
 	Amount DECIMAL(20,2) NOT NULL
 );
 
 CREATE TABLE StoreOperationalCost
 (
 	StoreOperationalCostID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) NOT NULL,
-	OperationalCostID INT FOREIGN KEY REFERENCES OperationalCost(OperationalCostID) NOT NULL
+	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) ON DELETE CASCADE NOT NULL,
+	OperationalCostID INT FOREIGN KEY REFERENCES OperationalCost(OperationalCostID) ON DELETE CASCADE NOT NULL
 );
 
 CREATE TABLE Role
@@ -116,7 +116,7 @@ CREATE TABLE RolePermission
 (
 	RolePermissionID INT IDENTITY(1,1) PRIMARY KEY,
 	RoleID INT FOREIGN KEY REFERENCES Role(RoleID),
-	PermissionID INT FOREIGN KEY REFERENCES Permission(PermissionID)
+	PermissionID INT FOREIGN KEY REFERENCES Permission(PermissionID) ON DELETE CASCADE NOT NULL
 );
 
 CREATE TABLE Employee
@@ -125,11 +125,11 @@ CREATE TABLE Employee
 	IDNumber BIGINT UNIQUE NOT NULL,
 	FirstName VARCHAR(40),
 	LastName VARCHAR(50),
-	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) NOT NULL,
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) ON DELETE SET NULL,
 	Email VARCHAR(20) UNIQUE,
 	Phone CHAR(10) UNIQUE NOT NULL,
-	RoleID INT FOREIGN KEY REFERENCES Role(RoleID) NOT NULL,
-	StoreID INT FOREIGN KEY REFERENCES Store(StoreID)
+	RoleID INT FOREIGN KEY REFERENCES Role(RoleID) ON DELETE SET NULL,
+	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) ON DELETE SET NULL
 );
 
 CREATE TABLE Markup
@@ -145,7 +145,7 @@ CREATE TABLE Deal
 	StartDate DATE NOT NULL,
 	EndDate DATE NOT NULL,
 	Description VARCHAR(100) NOT NULL,
-	MarkupID INT FOREIGN KEY REFERENCES Markup(MarkupID) NOT NULL
+	MarkupID INT FOREIGN KEY REFERENCES Markup(MarkupID) ON DELETE CASCADE NOT NULL
 );
 
 CREATE TABLE ProductTax
@@ -165,7 +165,7 @@ CREATE TABLE SubCategory
 (
 	SubCategoryID INT IDENTITY(1,1) PRIMARY KEY,
 	SubCategoryName VARCHAR(50) NOT NULL,
-	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID) NOT NULL
+	MainCategoryID INT FOREIGN KEY REFERENCES MainCategory(MainCategoryID)
 );
 
 CREATE TABLE BaseProduct
@@ -176,7 +176,7 @@ CREATE TABLE BaseProduct
 	BaseProductDescription VARCHAR(100) NOT NULL,
 	BaseProductPicture VARCHAR(50) NOT NULL,
 	DealID INT FOREIGN KEY REFERENCES Deal(DealID) NOT NULL,
-	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID) NOT NULL
+	ProductTaxID INT FOREIGN KEY REFERENCES ProductTax(ProductTaxID)
 );
 
 CREATE TABLE StoreBaseProduct
@@ -194,7 +194,7 @@ CREATE TABLE Sale
 	SaleID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	SaleDate DATETIME NOT NULL,
 	SaleAmount DECIMAL(10,2) NOT NULL,
-	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID),
+	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID) ON DELETE NO ACTION,
 	StoreID INT FOREIGN KEY REFERENCES Store(StoreID)
 );
 
@@ -205,8 +205,8 @@ CREATE TABLE SaleProduct
 	SellingPrice DECIMAL(10,2) NOT NULL,
 	Quantity INT NOT NULL,
 	CONSTRAINT PK_SaleProduct PRIMARY KEY (SaleID,BaseProductID),
-	CONSTRAINT FK_Sale FOREIGN KEY (SaleID) REFERENCES Sale(SaleID),
-	CONSTRAINT FK_Product FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID)
+	CONSTRAINT FK_Sale FOREIGN KEY (SaleID) REFERENCES Sale(SaleID) ON DELETE CASCADE,
+	CONSTRAINT FK_Product FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID) ON DELETE NO ACTION
 );
 
 CREATE TABLE ProductAttribute
@@ -299,16 +299,16 @@ CREATE TABLE Supplier
 	Name VARCHAR(60) UNIQUE NOT NULL,
 	Email VARCHAR(20) UNIQUE NOT NULL,
 	Phone CHAR(10) UNIQUE NOT NULL,
-	AddressID INT FOREIGN KEY REFERENCES Address(AddressID)
+	AddressID INT FOREIGN KEY REFERENCES Address(AddressID) ON DELETE SET NULL
 );
 
 CREATE TABLE StoreOrder
 (
 	OrderID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	SupplierID INT FOREIGN KEY REFERENCES Supplier(SupplierID) NOT NULL,
-	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) NOT NULL,
+	SupplierID INT FOREIGN KEY REFERENCES Supplier(SupplierID) ON DELETE NO ACTION NOT NULL,
+	StoreID INT FOREIGN KEY REFERENCES Store(StoreID) ON DELETE NO ACTION NOT NULL,
 	OrderDate DATE NOT NULL,
-	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID),
+	EmployeeID INT FOREIGN KEY REFERENCES Employee(EmployeeID) ON DELETE NO ACTION,
 	OrderStatus VARCHAR(20) NOT NULL,
 	DateReceived DATE
 );
@@ -319,8 +319,8 @@ CREATE TABLE OrderProduct
 	OrderID INT NOT NULL,
 	Quantity BIGINT,
 	CONSTRAINT PK_OrderToProduct PRIMARY KEY (BaseProductID, OrderID),
-	CONSTRAINT FK_OrderToProduct FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID),
-	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID)
+	CONSTRAINT FK_OrderToProduct FOREIGN KEY (BaseProductID) REFERENCES BaseProduct(BaseProductID) ON DELETE CASCADE,
+	CONSTRAINT FK_ProductToOrder FOREIGN KEY (OrderID) REFERENCES StoreOrder(OrderID) ON DELETE CASCADE
 );
 
 /*******************************************************************************************************************************************
@@ -344,7 +344,7 @@ ADD CONSTRAINT CHK_Supplier_Valid_Phone
 CHECK(Phone NOT LIKE '%[^0-9]%');
 
 /*******************************************************************************************************************************************
-*													 CREATE INDEXES	 														   							*
+*															CREATE INDEXES	 												     		   *
 ********************************************************************************************************************************************/
 
 CREATE NONCLUSTERED INDEX idxBaseProductName
@@ -1175,6 +1175,26 @@ EXEC('CREATE PROCEDURE uspUpdateStoreType
 	END CATCH')
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreByType' AND objectproperty(object_id,'IsProcedure') = 1)
+EXEC('CREATE PROCEDURE uspUpdateStoreByType
+		@OldTypeID INT,
+		@NewTypeID INT
+	AS
+	BEGIN TRY
+		SET NOCOUNT ON;
+		BEGIN TRANSACTION
+			UPDATE Store
+			SET TypeID = @NewTypeID
+			WHERE TypeID = @OldTypeID
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK;
+		INSERT INTO Errors
+    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
+	END CATCH')
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspUpdateStoreName' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspUpdateStoreName
 		@OLDStoreName VARCHAR(50),
@@ -1823,45 +1843,6 @@ GO
 /*******************************************************************************************************************************************
 *														CREATE DELETE STORED PROCEDURES	 												   *
 ********************************************************************************************************************************************/
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteCity' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspDeleteCity
-		@CityName VARCHAR(50)
-	AS
-	BEGIN TRY
-		SET NOCOUNT ON;
-		BEGIN TRANSACTION
-			DELETE FROM City
-			WHERE CityName = @CityName
-		COMMIT TRANSACTION;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK;
-		INSERT INTO Errors
-    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
-	END CATCH')
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteSuburb' AND objectproperty(object_id,'IsProcedure') = 1)
-EXEC('CREATE PROCEDURE uspDeleteSuburb
-		@SuburbName VARCHAR(50) = NULL,
-		@PostalCode CHAR(40) = NULL
-	AS
-	BEGIN TRY
-		SET NOCOUNT ON;
-		BEGIN TRANSACTION
-			DELETE FROM Suburb
-			WHERE 
-				(@SuburbName IS NULL OR (SuburbName = @SuburbName)) AND
-				(@PostalCode IS NULL OR (PostalCode = @PostalCode))
-		COMMIT TRANSACTION;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK;
-		INSERT INTO Errors
-    		VALUES(SUSER_SNAME(), ERROR_NUMBER(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE(), ERROR_PROCEDURE(), ERROR_MESSAGE(), GETDATE());
-	END CATCH')
-GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name='uspDeleteStoreType' AND objectproperty(object_id,'IsProcedure') = 1)
 EXEC('CREATE PROCEDURE uspDeleteStoreType
