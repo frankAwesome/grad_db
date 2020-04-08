@@ -650,6 +650,9 @@ EXEC uspInsertStoreBaseProduct 5, 5, 214
 EXEC uspInsertStoreBaseProduct 6, 6, 36
 EXEC uspInsertStoreBaseProduct 7, 7, 11
 
+EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
+EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
+
 EXEC uspInsertProductValue 1, 1, '3000Kg'
 EXEC uspInsertProductValue 2, 1, '3500Kg'
 EXEC uspInsertProductValue 3, 1, '2500Kg'
@@ -664,9 +667,6 @@ EXEC uspInsertProductValue 4, 2, 'Silver'
 EXEC uspInsertProductValue 5, 2, 'White'
 EXEC uspInsertProductValue 6, 2, 'Red'
 EXEC uspInsertProductValue 7, 2, 'White'
-
-EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
-EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
 
 EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
 EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL

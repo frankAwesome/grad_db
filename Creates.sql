@@ -1074,7 +1074,7 @@ EXEC('CREATE PROCEDURE uspInsertProductAttribute
 	BEGIN TRY
 		SET NOCOUNT ON;
 		BEGIN TRANSACTION
-			INSERT INTO ProductValue VALUES(@AttributeName,@Description,@Type);
+			INSERT INTO ProductAttribute VALUES(@AttributeName,@Description,@Type);
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH

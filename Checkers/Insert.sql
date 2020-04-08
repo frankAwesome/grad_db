@@ -769,18 +769,18 @@ EXEC uspInsertStoreBaseProduct 2, 2, 150
 EXEC uspInsertStoreBaseProduct 1, 4, 23
 EXEC uspInsertStoreBaseProduct 1, 3, 22
 
+EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
+EXEC uspInsertProductAttribute 'Age Rating', 'Minimum age to recommended to play game', 'Restrictions'
+EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
+EXEC uspInsertProductAttribute 'Package Amount', 'Overall amount of packages in container', 'Quantity'
+EXEC uspInsertProductAttribute 'Outer Dimensions', 'Dimensions of package [L x W x H]', 'Dimensions'
+
 EXEC uspInsertProductValue 5, 1, '0.005'
 EXEC uspInsertProductValue 6, 2, '18'
 EXEC uspInsertProductValue 1, 3, 'White'
 EXEC uspInsertProductValue 3, 4, '(36 x 50g)'
 EXEC uspInsertProductValue 4, 4, '(1 x 500ml)'
 EXEC uspInsertProductValue 5, 5, '110mm(L) x 100mm(W) x 5mm(H)'
-
-EXEC uspInsertProductAttribute 'Weigth', 'The product weight is in Kg', 'Physical Weight'
-EXEC uspInsertProductAttribute 'Age Rating', 'Minimum age to recommended to play game', 'Restrictions'
-EXEC uspInsertProductAttribute 'Color', 'The primary overall color of the product', 'Outside Color'
-EXEC uspInsertProductAttribute 'Package Amount', 'Overall amount of packages in container', 'Quantity'
-EXEC uspInsertProductAttribute 'Outer Dimensions', 'Dimensions of package [L x W x H]', 'Dimensions'
 
 EXEC uspInsertStoreOrder 1, 1, '2020-04-25', 1, 'Order Received', NULL
 EXEC uspInsertStoreOrder 2, 2, '2020-04-25', 2, 'Order In Progress', NULL
