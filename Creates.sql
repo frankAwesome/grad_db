@@ -525,6 +525,7 @@ EXEC('CREATE PROCEDURE uspSelectEmployee
 		WHERE 
 			(@IDNumber IS NULL OR (employee.IDNumber = @IDNumber)) AND
 			(@Email IS NULL OR (employee.Email = @Email));
+		OPTION (RECOMPILE)
 	END')
 GO
 
@@ -1301,7 +1302,6 @@ EXEC('CREATE PROCEDURE uspInsertSaleProduct
 		@SaleID INT,
 		@BaseProductID INT,
 		@Quantity INT
-		
 	AS
 	BEGIN TRY
 		SET NOCOUNT ON;
@@ -1310,7 +1310,7 @@ EXEC('CREATE PROCEDURE uspInsertSaleProduct
 			UPDATE StoreBaseProduct
 			SET Quantity = Quantity - @Quantity
 			WHERE BaseProductID = @BaseProductID
-			AND StoreID = (SELECT StoreID FROM SALE WHERE SaleID = @SaleID)
+			AND StoreID = (SELECT StoreID FROM Sale WHERE SaleID = @SaleID)
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
